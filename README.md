@@ -5,6 +5,9 @@
 ## Installation
 
 ```bash
+# NLE dependencies
+apt-get install -yq autoconf libtool pkg-config libbz2-dev
+
 conda create -n nle_utils python=3.10
 
 python -m pip install --upgrade pip
@@ -23,6 +26,9 @@ git clone https://github.com/BartekCupial/nle.git nle && cd nle \
 && sed '/def seed(self, core=None, disp=None, reseed=True):/d' nle/env/tasks.py -i \
 && sed '/raise RuntimeError("NetHackChallenge doesn.t allow seed changes")/d' nle/env/tasks.py -i \
 && python setup.py install && cd .. 
+
+# install render utils
+pip install -e sf_examples/nethack/render_utils
 
 # install NLE utils
 pip install -e .[dev]
