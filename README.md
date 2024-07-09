@@ -27,9 +27,6 @@ git clone https://github.com/BartekCupial/nle.git nle && cd nle \
 && sed '/raise RuntimeError("NetHackChallenge doesn.t allow seed changes")/d' nle/env/tasks.py -i \
 && python setup.py install && cd .. 
 
-# install render utils
-pip install -e sf_examples/nethack/render_utils
-
 # install NLE utils
 pip install -e .[dev]
 
