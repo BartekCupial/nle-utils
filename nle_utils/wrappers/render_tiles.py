@@ -332,11 +332,10 @@ class RenderTiles(gym.Wrapper):
         i += 2
 
         # extra stats info
-        if self.last_info is not None:
-            for k, v in self.last_info["episode_extra_stats"].items():
-                txt = f"{' '.join(map(lambda x: x.capitalize(), k.split('_')))}: {v}"
-                _put_text(ret, txt, (0, i * FONT_SIZE), color=(255, 255, 255))
-                i += 1
+        for k, v in self.last_info["episode_extra_stats"].items():
+            txt = f"{' '.join(map(lambda x: x.capitalize(), k.split('_')))}: {v}"
+            _put_text(ret, txt, (0, i * FONT_SIZE), color=(255, 255, 255))
+            i += 1
 
         _draw_frame(ret)
         return ret
