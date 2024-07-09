@@ -37,6 +37,7 @@ setup(
         "scipy ~= 1.11",
         "tqdm ~= 4.66",
         "debugpy ~= 1.6",
+        "gymnasium",
     ],
     extras_require={
         # some tests require Atari and Mujoco so let's make sure dev environment has that
