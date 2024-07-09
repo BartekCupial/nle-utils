@@ -219,7 +219,8 @@ class RenderTiles(gym.Wrapper):
         self.output_path.parent.mkdir(parents=True, exist_ok=True)
         self.video_writer = cv2.VideoWriter(str(self.output_path), self.fourcc, 30.0, (1920, 1080))
 
-        self.render()
+        # TODO: add self.render() when updated to gymnasium
+
         return obs
 
     def step(self, action):
@@ -303,7 +304,8 @@ class RenderTiles(gym.Wrapper):
             f"Score:{blstats.score}",
             f"Step:{len(self.action_history)}",
             f"Turn:{blstats.time}",
-            f"Dlvl:{blstats.level_number}",
+            f"Dlvl:{self.last_info['episode_extra_stats']['dlvl']}",
+            f"MaxDlvl:{self.last_info['episode_extra_stats']['max_dlvl']}",
             f"{' '.join(map(lambda x: x.capitalize(), Level(blstats.dungeon_number).name.split('_')))}",
         ]
         _put_text(ret, " ".join(txt), (0, i * FONT_SIZE), color=(255, 255, 255))
