@@ -1,3 +1,5 @@
+import importlib.resources
+import os
 import re
 import time
 from pathlib import Path
@@ -18,7 +20,8 @@ HISTORY_SIZE = 13
 FONT_SIZE = 32
 RENDERS_HISTORY_SIZE = 128
 
-SMALL_FONT_PATH = "Hack-Regular.ttf"
+nle_utils_dir = os.path.dirname(importlib.resources.files("nle_utils").__str__())
+SMALL_FONT_PATH = os.path.join(nle_utils_dir, "Hack-Regular.ttf")
 
 # Mapping of 0-15 colors used.
 # Taken from bottom image here. It seems about right
