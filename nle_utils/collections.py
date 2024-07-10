@@ -30,4 +30,4 @@ def concat_dicts(list_of_dicts: List[Dict]) -> Dict:
         - The order of values in the resulting lists corresponds to the order of dictionaries in the input list.
         - This function does not modify the input dictionaries.
     """
-    return {key: [d[key] for d in list_of_dicts if key in d] for key in set().union(*list_of_dicts)}
+    return {key: [d.get(key, None) for d in list_of_dicts] for key in set().union(*list_of_dicts)}
