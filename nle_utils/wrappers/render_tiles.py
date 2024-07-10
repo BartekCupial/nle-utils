@@ -156,11 +156,6 @@ def _put_text(img, text, pos, scale=FONT_SIZE / 32, thickness=1, color=(255, 255
     return img
 
 
-def _put_tile(img, tile, pos):
-    x, y, z = tile.shape
-    img[pos[1] : pos[1] + y, pos[0] : pos[0] + x] = tile
-
-
 def _draw_frame(img, color=(90, 90, 90), thickness=3):
     return cv2.rectangle(img, (0, 0), (img.shape[1] - 1, img.shape[0] - 1), color, thickness)
 
@@ -509,11 +504,7 @@ class RenderTiles(gym.Wrapper):
 
                 for item in groups[clas.name].iloc:
                     txt = f"{item['letters']}) {item['strs']}"
-                    glyph = item["glyphs"]
-                    tiles_idx = self.glyph2tile[glyph]
-                    tiles = self.tileset[tiles_idx]
-                    _put_tile(ret, tiles, (16, i * FONT_SIZE))
-                    _put_text(ret, txt, (40, i * FONT_SIZE), color=(255, 255, 255))
+                    _put_text(ret, txt, (10, i * FONT_SIZE), color=(255, 255, 255))
                     i += 1
 
                 i += 1
