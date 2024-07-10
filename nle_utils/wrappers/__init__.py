@@ -20,4 +20,5 @@ __all__ = [
     TaskRewardsInfoWrapper,
     NLETimeLimit,
     TtyrecInfoWrapper,
+    GymV21CompatibilityV0,
 ]
