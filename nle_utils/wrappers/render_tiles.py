@@ -207,6 +207,9 @@ class RenderTiles(gym.Wrapper):
 
     def reset(self, **kwargs):
         self.start_time = time.time()
+        self.action_history = list()
+        self.message_history = list()
+        self.popup_history = list()
 
         if self.video_writer is not None:
             self.video_writer.release()
