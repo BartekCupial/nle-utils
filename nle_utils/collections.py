@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, Iterable, List
 
 
 def concat_dicts(list_of_dicts: List[Dict]) -> Dict:
@@ -31,3 +31,13 @@ def concat_dicts(list_of_dicts: List[Dict]) -> Dict:
         - This function does not modify the input dictionaries.
     """
     return {key: [d.get(key, None) for d in list_of_dicts] for key in set().union(*list_of_dicts)}
+
+
+def listify(value) -> list:
+    if isinstance(value, list):
+        return value
+
+    if isinstance(value, Iterable) and not isinstance(value, (str, bytes)):
+        return list(value)
+
+    return [value]
