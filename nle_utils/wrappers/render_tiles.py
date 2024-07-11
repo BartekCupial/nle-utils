@@ -391,7 +391,7 @@ class RenderTiles(gym.Wrapper):
     def update_message_and_popup_history(self):
         """Uses MORE action to get full popup and/or message."""
         message = self.env.unwrapped.last_observation[self.env.unwrapped._message_index]
-        message = bytes(message).decode().replace("\0", " ").replace("\n", "").strip()
+        message = "".join(map(chr, message)).replace("\0", " ").replace("\n", "").strip()
         if message.endswith("--More--"):
             # FIXME: It seems like in this case the environment doesn't expect additional input,
             #        but I'm not 100% sure, so it's too risky to change it, because it could stall everything.
@@ -402,7 +402,7 @@ class RenderTiles(gym.Wrapper):
         popup = []
 
         tty_chars = self.env.unwrapped.last_observation[self.env.unwrapped._observation_keys.index("tty_chars")]
-        lines = [bytes(line).decode().replace("\0", " ").replace("\n", "") for line in tty_chars]
+        lines = ["".join(map(chr, line)).replace("\0", " ").replace("\n", "").strip() for line in tty_chars]
         marker_pos, marker_type = self._find_marker(lines)
 
         if marker_pos is None:
