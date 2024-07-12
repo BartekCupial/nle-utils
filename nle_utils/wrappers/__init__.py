@@ -2,6 +2,7 @@ from nle_utils.wrappers.blstats_info import BlstatsInfoWrapper
 from nle_utils.wrappers.final_stats_info import FinalStatsWrapper
 from nle_utils.wrappers.gym_compatibility import GymV21CompatibilityV0
 from nle_utils.wrappers.last_info import LastInfo
+from nle_utils.wrappers.load_save import LoadSave
 from nle_utils.wrappers.nle_demo import NLEDemo
 from nle_utils.wrappers.nle_timelimit import NLETimeLimit
 from nle_utils.wrappers.prev_actions import PrevActionsWrapper
@@ -15,6 +16,7 @@ __all__ = [
     FinalStatsWrapper,
     GymV21CompatibilityV0,
     LastInfo,
+    LoadSave,
     NLEDemo,
     PrevActionsWrapper,
     RenderTiles,
