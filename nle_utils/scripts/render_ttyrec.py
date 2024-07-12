@@ -1,4 +1,5 @@
 import argparse
+import os
 from glob import glob
 from pathlib import Path
 from typing import Tuple
@@ -9,14 +10,14 @@ from nle_utils.ttyrec.render_ttyrec import RenderTtyrec
 from nle_utils.utils import str2bool
 
 
-def worker(name_path: Tuple[str, Path], output_dir: Path, ttyrec_version, show) -> Result:
-    sample_name, ttyrec = name_path
+def worker(ttyrec_path: str, output_dir: str, ttyrec_version, show) -> Result:
+    sample_name = Path(ttyrec_path).name
 
-    if get_ttyrec_version(ttyrec) is None:
+    if get_ttyrec_version(ttyrec_path) is None:
         return Result(description=sample_name, log_msg="file is not ttyrec")
 
     renderer = RenderTtyrec(output_dir, ttyrec_version, show=show)
-    renderer.render(ttyrec)
+    renderer.render(ttyrec_path)
     renderer.close()
 
     return Result(description=sample_name)
@@ -24,7 +25,7 @@ def worker(name_path: Tuple[str, Path], output_dir: Path, ttyrec_version, show) 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--ttyrec_dir", type=str)
+    parser.add_argument("--ttyrec", type=str)
     parser.add_argument("--output_dir", type=str)
     parser.add_argument("--ttyrec_version", type=int, default=3)
     parser.add_argument("--show", type=str2bool, default=False)
@@ -32,11 +33,15 @@ if __name__ == "__main__":
     flags = parser.parse_args()
     print(flags)
 
-    data = {Path(filename).name: filename for filename in glob(f"{flags.ttyrec_dir}/**/*ttyrec*", recursive=True)}
+    if os.path.isdir(flags.ttyrec):
+        data = (filename for filename in glob(f"{flags.ttyrec}/**/*ttyrec*", recursive=True))
+    else:
+        data = (flags.ttyrec,)
+
     total = len(data)
     run_parallel(
         function=worker,
-        iterable=data.items(),
+        iterable=data,
         function_args=(flags.output_dir, flags.ttyrec_version, flags.show),
         n_jobs=flags.n_jobs,
     )
