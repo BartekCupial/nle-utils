@@ -2,7 +2,6 @@ from pathlib import Path
 
 import cv2
 import gym
-from nle.nethack.actions import _ACTIONS_DICT
 
 from nle_utils.visualize import Visualize
 
@@ -52,7 +51,7 @@ class RenderVideo(gym.Wrapper):
         last_obs = self.env.unwrapped.last_observation
         message = last_obs[self.env.unwrapped._observation_keys.index("message")]
         tty_chars = last_obs[self.env.unwrapped._observation_keys.index("tty_chars")]
-        self.visualizer.update_history(_ACTIONS_DICT[action], message, tty_chars)
+        self.visualizer.update_history(self.env.unwrapped.actions[action].name, message, tty_chars)
 
         return obs, reward, done, info
 
