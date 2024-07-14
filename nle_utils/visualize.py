@@ -208,14 +208,14 @@ class Visualize:
         inv_strs,
         tty_chars,
         tty_colors,
+        info,
         # TODO: add tty_cursor
-        # FIXME: we need to somehow calculate stats, last_info?
     ):
         tiles_idx = self.glyph2tile[glyphs]
         tiles = self.tileset[tiles_idx.reshape(-1)]
         scene_vis = _draw_grid(tiles, glyphs.shape[1])
         topbar = self._draw_topbar(scene_vis.shape[1])
-        bottombar = self._draw_bottombar(tty_chars, tty_colors, blstats, scene_vis.shape[1])
+        bottombar = self._draw_bottombar(tty_chars, tty_colors, blstats, info, scene_vis.shape[1])
         rendered = np.concatenate([topbar, scene_vis, bottombar], axis=0)
         inventory = self._draw_inventory(inv_glyphs, inv_letters, inv_oclasses, inv_strs, rendered.shape[0])
         rendered = np.concatenate([rendered, inventory], axis=1)
@@ -233,10 +233,10 @@ class Visualize:
         self.action_history.append(action)
         self.update_message_and_popup_history(message, tty_chars)
 
-    def _draw_bottombar(self, tty_chars, tty_colors, blstats, width):
+    def _draw_bottombar(self, tty_chars, tty_colors, blstats, info, width):
         height = FONT_SIZE * len(tty_chars)
         tty = self._draw_tty(tty_chars, tty_colors, width - width // 2, height)
-        stats = self._draw_stats(blstats, width // 2, height)
+        stats = self._draw_stats(blstats, info, width // 2, height)
         return np.concatenate([tty, stats], axis=1)
 
     def _draw_tty(self, tty_chars, tty_colors, width, height):
@@ -262,7 +262,7 @@ class Visualize:
         tty = cv2.resize(tty_image, (width, height), interpolation=cv2.INTER_AREA)
         return tty
 
-    def _draw_stats(self, blstats, width, height):
+    def _draw_stats(self, blstats, info, width, height):
         ret = np.zeros((height, width, 3), dtype=np.uint8)
         blstats = BLStats(*blstats)
 
@@ -272,9 +272,9 @@ class Visualize:
             f"Score:{blstats.score}",
             f"Step:{len(self.action_history)}",
             f"Turn:{blstats.time}",
-            # FIXME: last info
-            # f"Dlvl:{self.last_info['episode_extra_stats']['dlvl']}",
-            # f"MaxDlvl:{self.last_info['episode_extra_stats']['max_dlvl']}",
+            # FIXME: how can we ensure that we use `FinalStatsWrapper` and `TaskRewardsInfoWrapper`?
+            f"Dlvl:{info.get('episode_extra_stats', {'dlvl': 1})['dlvl']}",
+            f"MaxDlvl:{info.get('episode_extra_stats', {'max_dlvl': 1})['max_dlvl']}",
             f"{' '.join(map(lambda x: x.capitalize(), Level(blstats.dungeon_number).name.split('_')))}",
         ]
         _put_text(ret, " ".join(txt), (0, i * FONT_SIZE), color=(255, 255, 255))
@@ -301,11 +301,10 @@ class Visualize:
         i += 2
 
         # extra stats info
-        # FIXME: last info
-        # for k, v in self.last_info["episode_extra_stats"].items():
-        #     txt = f"{' '.join(map(lambda x: x.capitalize(), k.split('_')))}: {v}"
-        #     _put_text(ret, txt, (0, i * FONT_SIZE), color=(255, 255, 255))
-        #     i += 1
+        for k, v in info.get("episode_extra_stats", {}).items():
+            txt = f"{' '.join(map(lambda x: x.capitalize(), k.split('_')))}: {v}"
+            _put_text(ret, txt, (0, i * FONT_SIZE), color=(255, 255, 255))
+            i += 1
 
         _draw_frame(ret)
         return ret

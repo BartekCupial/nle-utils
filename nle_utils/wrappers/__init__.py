@@ -6,7 +6,6 @@ from nle_utils.wrappers.load_save import LoadSave
 from nle_utils.wrappers.nle_demo import NLEDemo
 from nle_utils.wrappers.nle_timelimit import NLETimeLimit
 from nle_utils.wrappers.prev_actions import PrevActionsWrapper
-from nle_utils.wrappers.render_tiles import RenderTiles
 from nle_utils.wrappers.render_video import RenderVideo
 from nle_utils.wrappers.task_rewards_info import TaskRewardsInfoWrapper
 from nle_utils.wrappers.ttyrec_info import TtyrecInfoWrapper
@@ -19,7 +18,6 @@ __all__ = [
     LoadSave,
     NLEDemo,
     PrevActionsWrapper,
-    RenderTiles,
     RenderVideo,
     TaskRewardsInfoWrapper,
     NLETimeLimit,

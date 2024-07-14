@@ -4,9 +4,10 @@ import cv2
 import gym
 
 from nle_utils.visualize import Visualize
+from nle_utils.wrappers.last_info import LastInfo
 
 
-class RenderVideo(gym.Wrapper):
+class RenderVideo(LastInfo):
     def __init__(
         self,
         env: gym.Env,
@@ -77,6 +78,7 @@ class RenderVideo(gym.Wrapper):
             inv_strs,
             tty_chars,
             tty_colors,
+            self.last_info,  # we have access to self.last_info because we derive from LastInfo wrapper
         )
 
         resized_image = cv2.resize(image, (1920, 1080), cv2.INTER_AREA)
