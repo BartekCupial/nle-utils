@@ -94,6 +94,24 @@ class NLEDemo(gym.Wrapper):
 
         return obs
 
+    def play_from_the_start(self, file_name):
+        with open(file_name, "rb") as f:
+            dat = pickle.load(f)
+        recorded_actions = dat["actions"]
+        self.env.unwrapped.seed(*dat["seeds"])
+        obs = self.reset()
+
+        for action in recorded_actions:
+            # Note: here we call self.step instead self.env.step to force the demo
+            # to save checkpoints every nth step
+            obs, _, done, _ = self.step(action)
+
+            # TODO: we don't have any guarantees that dones won't happen, e.g. above issue
+            # this would indicate issues with saving etc...
+            assert not done, "issue with saving/loading happened..."
+
+        return obs
+
     def save_checkpoint(self):
         i = len(self.recorded_actions)
         chk_pth = self.savedir / f"ckpt_{i}"
