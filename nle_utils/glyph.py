@@ -511,6 +511,7 @@ class G:  # Glyphs
     STAIR_DOWN = frozenset({SS.S_dnstair, SS.S_dnladder})  # ">"
     ALTAR = frozenset({SS.S_altar})  # "_"
     FOUNTAIN = frozenset({SS.S_fountain})  # "{"
+    SINK = frozenset({SS.S_sink})
 
     DOOR_CLOSED = frozenset({SS.S_vcdoor, SS.S_hcdoor})  # "+"
     DOOR_OPENED = frozenset({SS.S_vodoor, SS.S_hodoor})  # "-", "|""
@@ -542,6 +543,23 @@ class G:  # Glyphs
         {i for i in NORMAL_OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.FOOD_CLASS}
     )
 
+    WEAPON_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.WEAPON_CLASS})
+    ARMOR_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.ARMOR_CLASS})
+    RING_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.RING_CLASS})
+    AMULET_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.AMULET_CLASS})
+    TOOL_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.TOOL_CLASS})
+    FOOD_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.FOOD_CLASS})
+    POTION_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.POTION_CLASS})
+    SCROLL_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.SCROLL_CLASS})
+    SPBOOK_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.SPBOOK_CLASS})
+    WAND_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.WAND_CLASS})
+    COIN_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.COIN_CLASS})
+    GEM_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.GEM_CLASS})
+    ROCK_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.ROCK_CLASS})
+    BALL_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.BALL_CLASS})
+    CHAIN_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.CHAIN_CLASS})
+    VENOM_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.VENOM_CLASS})
+    
     TRAPS = frozenset(
         {
             SS.S_arrow_trap,
