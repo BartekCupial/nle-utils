@@ -14,7 +14,7 @@ class TtyrecInfoWrapper(gym.Wrapper):
 
         if done or self.done_only:
             extra_stats = info.get("episode_extra_stats", {})
-            extra_stats["ttyrecname"] = Path(ttyrec).name
+            extra_stats["ttyrecname"] = Path(ttyrec).name if ttyrec else ""
             info["episode_extra_stats"] = extra_stats
 
         return obs, reward, done, info
