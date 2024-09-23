@@ -42,11 +42,20 @@ def parse_numpad_action(action):
         ord("l"): M("l"),  # Loot
         # ord('N'): 'N',  # Name
         ord("u"): M("u"),  # Untrap
+        ord("1"): ord("b"),
+        ord("2"): ord("j"),
+        ord("3"): ord("n"),
+        ord("4"): ord("h"),
+        ord("5"): ord("."),
+        ord("6"): ord("l"),
+        ord("7"): ord("y"),
+        ord("8"): ord("k"),
+        ord("9"): ord("u"),
     }
     return numpad_actions.get(action, action)
 
 
-def get_action(env, action_mode="human", number_pad=True):
+def get_action(env, action_mode="human", typing=False):
     if action_mode == "random":
         action = env.action_space.sample()
     elif action_mode == "human":
@@ -67,7 +76,7 @@ def get_action(env, action_mode="human", number_pad=True):
                     action = C(chr(ord(ch) + 64))
                 else:
                     action = ord(ch)
-                    if number_pad:
+                    if not typing:
                         action = parse_numpad_action(action)
             elif len(ch) == 2:
                 if ch[0] == ord(b"\x1b"):

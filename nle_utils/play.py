@@ -4,7 +4,7 @@ from nle_utils.envs.create_env import create_env
 from nle_utils.utils.attr_dict import AttrDict
 
 
-def get_random_action(env, mode):
+def get_random_action(env, mode, typing):
     return env.action_space.sample()
 
 
@@ -27,17 +27,19 @@ def play(cfg, get_action=get_random_action, **kwargs):
     reward = 0.0
     total_reward = 0.0
     action = None
+    typing = False
 
     total_start_time = timeit.default_timer()
     start_time = total_start_time
 
     while True:
-        action = get_action(env, cfg.play_mode)
+        action = get_action(env, cfg.play_mode, typing)
         if action is None:
             break
 
         obs, reward, terminated, truncated, info = env.step(action)
 
+        typing = obs["tty_cursor"][0] == 0
         steps += 1
         total_reward += reward
 
