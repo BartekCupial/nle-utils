@@ -10,15 +10,15 @@ class NLEDemo(gym.Wrapper):
     Records actions taken, creates checkpoints, allows time travel, restoring and saving of states
     """
 
-    def __init__(self, env, savedir, env_name, save_every_k: int = 100000):
+    def __init__(self, env, savedir, name, save_every_k: int = 100000):
         super().__init__(env)
         self.save_every_k = save_every_k
         self.savedir = savedir
-        self.env_name = env_name
+        self.name = name
 
     @property
     def game_path(self):
-        return Path(self.savedir) / f"{self.env_name}.demo"
+        return Path(self.savedir) / f"{self.name}.demo"
 
     def step(self, action):
         obs, reward, done, info = self.env.step(action)
