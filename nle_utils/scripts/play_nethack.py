@@ -46,7 +46,7 @@ def parse_numpad_action(action):
     return numpad_actions.get(action, action)
 
 
-def get_action(env, action_mode, number_pad=True):
+def get_action(env, action_mode="human", number_pad=True):
     if action_mode == "random":
         action = env.action_space.sample()
     elif action_mode == "human":
