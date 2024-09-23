@@ -41,6 +41,7 @@ def play(cfg, get_action=get_random_action, **kwargs):
 
         obs, reward, terminated, truncated, info = env.step(action)
 
+        # TODO: still bugged, for example right now we cannot kick diagonally
         typing = obs["tty_cursor"][0] == 0
         steps += 1
         total_reward += reward
