@@ -10,7 +10,7 @@ class NLEDemo(gym.Wrapper):
     Records actions taken, creates checkpoints, allows time travel, restoring and saving of states
     """
 
-    def __init__(self, env, savedir, env_name, save_every_k: int = 100):
+    def __init__(self, env, savedir, env_name, save_every_k: int = 100000):
         super().__init__(env)
         self.save_every_k = save_every_k
         self.savedir = savedir
