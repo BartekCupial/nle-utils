@@ -1,7 +1,6 @@
 from typing import Callable, List, Optional
 
 import minihack  # NOQA: F401
-from external.nle_utils.nle_utils.wrappers import GymV21CompatibilityV0, NLETimeLimit
 from minihack.envs import (
     boxohack,
     corridor,
@@ -23,6 +22,7 @@ from minihack.envs import (
 from nle import nethack
 
 from nle_utils.utils.utils import is_module_available
+from nle_utils.wrappers import GymV21CompatibilityV0, NLETimeLimit
 
 
 def minihack_available():
