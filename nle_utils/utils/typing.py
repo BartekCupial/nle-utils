@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 from typing import Any, Callable, Dict, Optional, Tuple, Union
 
-from nle_code_wrapper.utils.attr_dict import AttrDict
+from nle_utils.utils.attr_dict import AttrDict
 
 Config = Union[argparse.Namespace, AttrDict]
 
