@@ -8,7 +8,7 @@ def get_random_action(env, mode):
     return env.action_space.sample()
 
 
-def play(cfg, get_action=get_random_action, strategies=[]):
+def play(cfg, get_action=get_random_action, **kwargs):
     render_mode = "human"
     if cfg.no_render:
         render_mode = None
@@ -18,7 +18,7 @@ def play(cfg, get_action=get_random_action, strategies=[]):
         cfg=cfg,
         env_config=AttrDict(worker_index=0, vector_index=0, env_id=0),
         render_mode=render_mode,
-        strategies=strategies,
+        **kwargs,
     )
 
     obs, info = env.reset(seed=cfg.seed)

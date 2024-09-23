@@ -13,7 +13,7 @@ def create_env(
     cfg: Optional[Config] = None,
     env_config: Optional[AttrDict] = None,
     render_mode: Optional[str] = None,
-    strategies: List[Callable] = [],
+    **kwargs,
 ):
     """
     Factory function that creates environment instances.
@@ -35,6 +35,6 @@ def create_env(
         raise ValueError(msg)
 
     env_factory = env_registry[full_env_name]
-    env = env_factory(full_env_name, cfg, env_config, render_mode, strategies)
+    env = env_factory(full_env_name, cfg, env_config, render_mode, **kwargs)
 
     return env
