@@ -10,11 +10,10 @@ class NLEDemo(gym.Wrapper):
     Records actions taken, creates checkpoints, allows time travel, restoring and saving of states
     """
 
-    def __init__(self, env, gamesavedir):
+    def __init__(self, env, savedir, save_every_k: int = 100):
         super().__init__(env)
-        self.save_every_k = 100
-        self.gamesavedir = gamesavedir
-        self.savedir = Path(gamesavedir) / Path(self.env.unwrapped.nethack._ttyrec).stem
+        self.save_every_k = save_every_k
+        self.savedir = savedir
 
     def step(self, action):
         obs, reward, done, info = self.env.step(action)
@@ -49,7 +48,9 @@ class NLEDemo(gym.Wrapper):
             "rewards": self.rewards,
             "seeds": self.seeds,
         }
-        with open(self.savedir / "game.demo", "wb") as f:
+        savedir = Path(self.savedir)
+        savedir.mkdir(exist_ok=True, parents=True)
+        with open(savedir / "game.demo", "wb") as f:
             pickle.dump(dat, f)
 
     def load_from_file(self, file_name, demostep=-1):
@@ -118,3 +119,7 @@ class NLEDemo(gym.Wrapper):
         self.env.unwrapped.save(gamesavedir=chk_pth)
         self.checkpoints.append(chk_pth)
         self.checkpoint_action_nr.append(len(self.recorded_actions))
+
+    def close(self):
+        self.save_to_file()
+        return super().close()
