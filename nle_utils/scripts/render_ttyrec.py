@@ -7,7 +7,7 @@ from typing import Tuple
 from nle_utils.parallel_utils import Result, run_parallel
 from nle_utils.ttyrec.read_ttyrec import get_ttyrec_version
 from nle_utils.ttyrec.render_ttyrec import RenderTtyrec
-from nle_utils.utils import str2bool
+from nle_utils.utils.utils import str2bool
 
 
 def worker(ttyrec_path: str, output_dir: str, ttyrec_version, show) -> Result:

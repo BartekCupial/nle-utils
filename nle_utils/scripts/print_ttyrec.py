@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 
 from nle_utils.ttyrec.print_ttyrec import PrintTtyrec
-from nle_utils.utils import str2bool
+from nle_utils.utils.utils import str2bool
 
 
 def worker(flags):
