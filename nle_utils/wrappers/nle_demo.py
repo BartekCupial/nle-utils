@@ -10,10 +10,15 @@ class NLEDemo(gym.Wrapper):
     Records actions taken, creates checkpoints, allows time travel, restoring and saving of states
     """
 
-    def __init__(self, env, savedir, save_every_k: int = 100):
+    def __init__(self, env, savedir, env_name, save_every_k: int = 100):
         super().__init__(env)
         self.save_every_k = save_every_k
         self.savedir = savedir
+        self.env_name = env_name
+
+    @property
+    def game_path(self):
+        return Path(self.savedir) / f"{self.env_name}.demo"
 
     def step(self, action):
         obs, reward, done, info = self.env.step(action)
@@ -48,9 +53,9 @@ class NLEDemo(gym.Wrapper):
             "rewards": self.rewards,
             "seeds": self.seeds,
         }
-        savedir = Path(self.savedir)
-        savedir.mkdir(exist_ok=True, parents=True)
-        with open(savedir / "game.demo", "wb") as f:
+        file_path = self.game_path
+        file_path.parent.mkdir(exist_ok=True, parents=True)
+        with open(file_path, "wb") as f:
             pickle.dump(dat, f)
 
     def load_from_file(self, file_name, demostep=-1):
