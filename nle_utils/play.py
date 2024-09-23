@@ -1,3 +1,4 @@
+import random
 import timeit
 
 from nle_utils.envs.create_env import create_env
@@ -21,6 +22,7 @@ def play(cfg, get_action=get_random_action, **kwargs):
         **kwargs,
     )
 
+    random.seed(cfg.seed)
     obs, info = env.reset(seed=cfg.seed)
 
     steps = 0
