@@ -1,6 +1,6 @@
 from typing import Dict
 
-from nle_code_wrapper.utils.typing import CreateEnvFunc
+from nle_utils.utils.typing import CreateEnvFunc
 
 
 class GlobalContext:
