@@ -1,6 +1,8 @@
 import random
 import timeit
 
+import numpy as np
+
 from nle_utils.envs.create_env import create_env
 from nle_utils.utils.attr_dict import AttrDict
 
@@ -22,6 +24,7 @@ def play(cfg, get_action=get_random_action, **kwargs):
         **kwargs,
     )
 
+    np.random.seed(cfg.seed)
     random.seed(cfg.seed)
     obs, info = env.reset(seed=cfg.seed)
 
