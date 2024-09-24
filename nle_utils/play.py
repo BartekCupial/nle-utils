@@ -5,7 +5,7 @@ from nle_utils.envs.create_env import create_env
 from nle_utils.utils.attr_dict import AttrDict
 
 
-def get_random_action(env, mode, typing):
+def get_random_action(env, mode, obs):
     return env.action_space.sample()
 
 
@@ -35,14 +35,12 @@ def play(cfg, get_action=get_random_action, **kwargs):
     start_time = total_start_time
 
     while True:
-        action = get_action(env, cfg.play_mode, typing)
+        action = get_action(env, cfg.play_mode, obs)
         if action is None:
             break
 
         obs, reward, terminated, truncated, info = env.step(action)
 
-        # TODO: still bugged, for example right now we cannot kick diagonally
-        typing = obs["tty_cursor"][0] == 0
         steps += 1
         total_reward += reward
 
@@ -53,10 +51,10 @@ def play(cfg, get_action=get_random_action, **kwargs):
 
         if cfg.verbose:
             print("Final reward:", reward)
-            print("End status:", info["end_status"].name)
+            print("End status:", info.get("end_status"), "")
             print(f"Total reward: {total_reward}, Steps: {steps}, SPS: {steps / time_delta}", total_reward)
 
         break
     env.close()
 
-    return info["end_status"].name
+    return info
