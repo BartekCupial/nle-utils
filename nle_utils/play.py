@@ -24,8 +24,9 @@ def play(cfg, get_action=get_random_action, **kwargs):
         **kwargs,
     )
 
-    np.random.seed(cfg.seed)
-    random.seed(cfg.seed)
+    if cfg.seed is not None:
+        np.random.seed(cfg.seed)
+        random.seed(cfg.seed)
     obs, info = env.reset(seed=cfg.seed)
 
     steps = 0
