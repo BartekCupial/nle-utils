@@ -1,39 +1,19 @@
 from typing import Optional
 
-from nle.env.tasks import (
-    NetHackChallenge,
-    NetHackEat,
-    NetHackGold,
-    NetHackOracle,
-    NetHackScore,
-    NetHackScout,
-    NetHackStaircase,
-    NetHackStaircasePet,
-)
+import nle # NOQA: F401
+import gym
 
 from nle_utils.wrappers import GymV21CompatibilityV0, NLETimeLimit
 
-NETHACK_ENVS = dict(
-    nethack_staircase=NetHackStaircase,
-    nethack_score=NetHackScore,
-    nethack_pet=NetHackStaircasePet,
-    nethack_oracle=NetHackOracle,
-    nethack_gold=NetHackGold,
-    nethack_eat=NetHackEat,
-    nethack_scout=NetHackScout,
-    nethack_challenge=NetHackChallenge,
-)
 
-
-def nethack_env_by_name(name):
-    if name in NETHACK_ENVS.keys():
-        return NETHACK_ENVS[name]
-    raise Exception("Unknown NetHack env")
+NETHACK_ENVS = []
+for env_spec in gym.envs.registry.all():
+    id = env_spec.id
+    if "NetHack" in id:
+        NETHACK_ENVS.append(id)
 
 
 def make_nethack_env(env_name, cfg, env_config, render_mode: Optional[str] = None):
-    env_class = nethack_env_by_name(env_name)
-
     observation_keys = (
         "message",
         "blstats",
@@ -65,7 +45,7 @@ def make_nethack_env(env_name, cfg, env_config, render_mode: Optional[str] = Non
     if cfg.max_episode_steps is not None:
         kwargs["max_episode_steps"] = cfg.max_episode_steps
 
-    env = env_class(**kwargs)
+    env = gym.make(env_name, **kwargs)
 
     # wrap NLE with timeout
     env = NLETimeLimit(env)

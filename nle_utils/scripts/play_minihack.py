@@ -7,7 +7,7 @@ from nle_utils.scripts.play_nethack import get_action
 
 
 def register_minihack_envs():
-    for env_name in MINIHACK_ENVS.keys():
+    for env_name in MINIHACK_ENVS:
         register_env(env_name, make_minihack_env)
 
 

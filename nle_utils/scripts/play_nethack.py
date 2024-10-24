@@ -9,6 +9,10 @@ from nle.nethack.actions import C, M
 from nle_utils.envs.env_utils import register_env
 from nle_utils.play import play
 
+from nle_utils.cfg.arguments import parse_args, parse_full_cfg
+from nle_utils.envs.nethack.nethack_env import NETHACK_ENVS, make_nethack_env
+from nle_utils.envs.nethack.nethack_params import add_extra_params_nethack_env
+
 
 @contextlib.contextmanager
 def no_echo():
@@ -106,8 +110,26 @@ def get_action(env, action_mode="human", obs=None):
     return action
 
 
+def register_minihack_envs():
+    for env_name in NETHACK_ENVS:
+        register_env(env_name, make_nethack_env)
+
+
+def register_minihack_components():
+    register_minihack_envs()
+
+
+def parse_minihack_args(argv=None):
+    parser, partial_cfg = parse_args(argv=argv)
+    add_extra_params_nethack_env(parser)
+    final_cfg = parse_full_cfg(parser, argv)
+    return final_cfg
+
+
 def main():
-    play()
+    register_minihack_components()
+    cfg = parse_minihack_args()
+    play(cfg, get_action=get_action)
 
 
 if __name__ == "__main__":
