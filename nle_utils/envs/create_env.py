@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Callable, List, Optional
+from typing import Optional
 
 from nle_utils.utils.attr_dict import AttrDict
 from nle_utils.utils.context import global_env_registry
@@ -13,7 +13,6 @@ def create_env(
     cfg: Optional[Config] = None,
     env_config: Optional[AttrDict] = None,
     render_mode: Optional[str] = None,
-    **kwargs,
 ):
     """
     Factory function that creates environment instances.
@@ -35,6 +34,6 @@ def create_env(
         raise ValueError(msg)
 
     env_factory = env_registry[full_env_name]
-    env = env_factory(full_env_name, cfg, env_config, render_mode, **kwargs)
+    env = env_factory(full_env_name, cfg, env_config, render_mode)
 
     return env

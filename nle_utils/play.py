@@ -11,7 +11,7 @@ def get_random_action(env, mode, obs):
     return env.action_space.sample()
 
 
-def play(cfg, get_action=get_random_action, **kwargs):
+def play(cfg, get_action=get_random_action):
     render_mode = "human"
     if cfg.no_render:
         render_mode = None
@@ -21,7 +21,6 @@ def play(cfg, get_action=get_random_action, **kwargs):
         cfg=cfg,
         env_config=AttrDict(worker_index=0, vector_index=0, env_id=0),
         render_mode=render_mode,
-        **kwargs,
     )
 
     if cfg.seed is not None:
@@ -33,7 +32,6 @@ def play(cfg, get_action=get_random_action, **kwargs):
     reward = 0.0
     total_reward = 0.0
     action = None
-    typing = False
 
     total_start_time = timeit.default_timer()
     start_time = total_start_time
