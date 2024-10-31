@@ -50,9 +50,6 @@ def make_nethack_env(env_name, cfg, env_config, render_mode: Optional[str] = Non
     # wrap NLE with timeout
     env = NLETimeLimit(env)
 
-    env = GymV21CompatibilityV0(env=env)
-
-    if render_mode:
-        env.render_mode = render_mode
+    env = GymV21CompatibilityV0(env=env, render_mode=render_mode)
 
     return env

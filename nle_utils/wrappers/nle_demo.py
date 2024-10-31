@@ -1,7 +1,7 @@
 import pickle
 from pathlib import Path
 
-import gym
+import gymnasium as gym
 import numpy as np
 
 
@@ -21,7 +21,8 @@ class NLEDemo(gym.Wrapper):
         return Path(self.savedir) / f"{self.name}.demo"
 
     def step(self, action):
-        obs, reward, done, info = self.env.step(action)
+        obs, reward, terminated, truncated, info = self.env.step(action)
+        done = terminated or truncated
 
         self.recorded_actions.append(action)
         self.rewards.append(reward)
@@ -34,16 +35,16 @@ class NLEDemo(gym.Wrapper):
             ) or (len(self.checkpoint_action_nr) == 0 and len(self.recorded_actions) >= self.save_every_k):
                 self.save_checkpoint()
 
-        return obs, reward, done, info
+        return obs, reward, terminated, truncated, info
 
-    def reset(self):
-        obs = self.env.reset()
+    def reset(self, **kwargs):
+        obs, info = self.env.reset(**kwargs)
         self.recorded_actions = []
         self.checkpoints = []
         self.checkpoint_action_nr = []
         self.rewards = []
         self.seeds = self.env.unwrapped.get_seeds()
-        return obs
+        return obs, info
 
     def save_to_file(self):
         dat = {
