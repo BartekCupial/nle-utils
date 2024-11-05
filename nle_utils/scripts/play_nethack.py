@@ -101,7 +101,7 @@ def get_action(env, action_mode="human", obs=None):
                 # TODO add diagonals
 
             try:
-                action = env.actions.index(action)
+                action = env.unwrapped.actions.index(action)
                 break
             except ValueError:
                 print(f"Selected action '{ch}' is not in action list. " "Please try again.")
