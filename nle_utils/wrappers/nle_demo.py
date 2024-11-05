@@ -43,7 +43,7 @@ class NLEDemo(gym.Wrapper):
         self.checkpoints = []
         self.checkpoint_action_nr = []
         self.rewards = []
-        self.seeds = self.env.unwrapped.get_seeds()
+        self.seeds = self.env.get_seeds()
         return obs, info
 
     def save_to_file(self):
