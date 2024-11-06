@@ -9,8 +9,8 @@ def add_extra_params_nethack_env(parser):
     p = parser
     p.add_argument("--character", type=str, default="@")
     p.add_argument("--max_episode_steps", type=int, default=None)
-    p.add_argument("--penalty_step", type=float, default=0.0)
-    p.add_argument("--penalty_time", type=float, default=-0.001)
+    p.add_argument("--penalty_step", type=float, default=-0.01)
+    p.add_argument("--penalty_time", type=float, default=0.0)
     p.add_argument("--reward_shaping_coefficient", type=float, default=0.1)
     p.add_argument("--fn_penalty_step", type=str, default="constant")
     p.add_argument("--savedir", type=str, default=None)
