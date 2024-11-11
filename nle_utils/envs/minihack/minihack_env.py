@@ -38,7 +38,6 @@ def make_minihack_env(env_name, cfg, env_config, render_mode: Optional[str] = No
 
     kwargs = dict(
         observation_keys=observation_keys,
-        character=cfg.character,
         penalty_step=cfg.penalty_step,
         penalty_time=cfg.penalty_time,
         penalty_mode=cfg.fn_penalty_step,
@@ -49,6 +48,9 @@ def make_minihack_env(env_name, cfg, env_config, render_mode: Optional[str] = No
 
     if cfg.max_episode_steps is not None:
         kwargs["max_episode_steps"] = cfg.max_episode_steps
+
+    if cfg.character is not None:
+        kwargs["character"] = cfg.character
 
     env = gym.make(env_name, **kwargs)
 
