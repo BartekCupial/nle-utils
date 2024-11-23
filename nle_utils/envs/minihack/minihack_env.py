@@ -1,7 +1,7 @@
 from typing import Callable, List, Optional
 
-import minihack  # NOQA: F401
 import gym
+import minihack  # NOQA: F401
 
 from nle_utils.utils.utils import is_module_available
 from nle_utils.wrappers import GymV21CompatibilityV0, NLETimeLimit

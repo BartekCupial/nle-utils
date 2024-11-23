@@ -6,12 +6,11 @@ import tty
 
 from nle.nethack.actions import C, M
 
-from nle_utils.envs.env_utils import register_env
-from nle_utils.play import play
-
 from nle_utils.cfg.arguments import parse_args, parse_full_cfg
+from nle_utils.envs.env_utils import register_env
 from nle_utils.envs.nethack.nethack_env import NETHACK_ENVS, make_nethack_env
 from nle_utils.envs.nethack.nethack_params import add_extra_params_nethack_env
+from nle_utils.play import play
 
 
 @contextlib.contextmanager
@@ -62,7 +61,7 @@ def parse_numpad_action(action):
 def get_action(env, action_mode="human", obs=None):
     # TODO: still bugged, for example right now we cannot kick diagonally
     typing = obs["tty_cursor"][0] == 0
-    
+
     if action_mode == "random":
         action = env.action_space.sample()
     elif action_mode == "human":

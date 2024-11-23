@@ -1,10 +1,9 @@
 from typing import Optional
 
-import nle # NOQA: F401
 import gym
+import nle  # NOQA: F401
 
 from nle_utils.wrappers import GymV21CompatibilityV0, NLETimeLimit
-
 
 NETHACK_ENVS = []
 for env_spec in gym.envs.registry.all():
