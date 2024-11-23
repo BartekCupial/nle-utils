@@ -559,7 +559,25 @@ class G:  # Glyphs
     BALL_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.BALL_CLASS})
     CHAIN_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.CHAIN_CLASS})
     VENOM_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.VENOM_CLASS})
-    
+    ITEMS = frozenset.union(
+        WEAPON_CLASS,
+        ARMOR_CLASS,
+        RING_CLASS,
+        AMULET_CLASS,
+        TOOL_CLASS,
+        FOOD_CLASS,
+        POTION_CLASS,
+        SCROLL_CLASS,
+        SPBOOK_CLASS,
+        WAND_CLASS,
+        COIN_CLASS,
+        GEM_CLASS,
+        ROCK_CLASS,
+        BALL_CLASS,
+        CHAIN_CLASS,
+        VENOM_CLASS,
+    )
+
     TRAPS = frozenset(
         {
             SS.S_arrow_trap,
