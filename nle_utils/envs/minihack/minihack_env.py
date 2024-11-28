@@ -34,6 +34,7 @@ def make_minihack_env(env_name, cfg, env_config, render_mode: Optional[str] = No
         "inv_strs",
         "inv_letters",
         "inv_oclasses",
+        "glyphs_crop"
     )
 
     kwargs = dict(
@@ -51,6 +52,10 @@ def make_minihack_env(env_name, cfg, env_config, render_mode: Optional[str] = No
         kwargs["max_episode_steps"] = cfg.max_episode_steps
 
     env = gym.make(env_name, **kwargs)
+
+    if cfg.env_seed is not None:
+        # set both core and disp
+        env.seed(core=cfg.env_seed, disp=cfg.env_seed)
 
     # wrap NLE with timeout
     env = NLETimeLimit(env)
