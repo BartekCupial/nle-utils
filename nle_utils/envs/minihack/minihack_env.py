@@ -1,7 +1,7 @@
 from typing import Callable, List, Optional
 
-import minihack  # NOQA: F401
 import gym
+import minihack  # NOQA: F401
 
 from nle_utils.utils.utils import is_module_available
 from nle_utils.wrappers import GymV21CompatibilityV0, NLETimeLimit
@@ -39,17 +39,21 @@ def make_minihack_env(env_name, cfg, env_config, render_mode: Optional[str] = No
 
     kwargs = dict(
         observation_keys=observation_keys,
-        character=cfg.character,
         penalty_step=cfg.penalty_step,
         penalty_time=cfg.penalty_time,
         penalty_mode=cfg.fn_penalty_step,
         savedir=cfg.savedir,
         save_ttyrec_every=cfg.save_ttyrec_every,
-        autopickup=cfg.autopickup,
     )
 
     if cfg.max_episode_steps is not None:
         kwargs["max_episode_steps"] = cfg.max_episode_steps
+
+    if cfg.character is not None:
+        kwargs["character"] = cfg.character
+
+    if cfg.autopickup is not None:
+        kwargs["autopickup"] = cfg.autopickup
 
     env = gym.make(env_name, **kwargs)
 

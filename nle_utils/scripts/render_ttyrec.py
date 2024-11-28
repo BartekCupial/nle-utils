@@ -34,7 +34,7 @@ if __name__ == "__main__":
     print(flags)
 
     if os.path.isdir(flags.ttyrec):
-        data = (filename for filename in glob(f"{flags.ttyrec}/**/*ttyrec*", recursive=True))
+        data = [filename for filename in glob(f"{flags.ttyrec}/**/*ttyrec*", recursive=True)]
     else:
         data = (flags.ttyrec,)
 
