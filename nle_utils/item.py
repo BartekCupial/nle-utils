@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Optional
 
 from nle import nethack
 
@@ -30,3 +31,45 @@ class ItemClasses(Enum):
     CHAIN = nethack.CHAIN_CLASS
     VENOM = nethack.VENOM_CLASS
     MAXOCLASSES = nethack.MAXOCLASSES
+
+
+class ItemShopStatus(Enum):
+    NOT_SHOP = 0
+    FOR_SALE = 1
+    UNPAID = 2
+
+
+class ItemEnchantment:
+    class EnchantmentState(Enum):
+        UNKNOWN = "UNKNOWN"
+
+    def __init__(self, value: Optional[int] = None):
+        self._value = value
+
+    @property
+    def value(self) -> Optional[int]:
+        """Get the enchantment value."""
+        return self._value
+
+    @value.setter
+    def value(self, new_value: Optional[int]) -> None:
+        """Set the enchantment value."""
+        if new_value is not None and not isinstance(new_value, int):
+            raise ValueError("Enchantment value must be an integer or None")
+        self._value = new_value
+
+    @property
+    def is_unknown(self) -> bool:
+        """Check if the enchantment state is unknown."""
+        return self._value is None
+
+    def __str__(self) -> str:
+        return str(self.EnchantmentState.UNKNOWN.value if self.is_unknown else self._value)
+
+    def __repr__(self) -> str:
+        return f"ItemEnchantment({self._value})"
+
+    def __eq__(self, other) -> bool:
+        if isinstance(other, ItemEnchantment):
+            return self._value == other._value
+        return False
