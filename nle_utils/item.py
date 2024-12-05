@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+import re
 from enum import Enum
 from typing import Optional
 
@@ -10,6 +13,26 @@ class ItemBeatitude(Enum):
     CURSED = 1
     UNCURSED = 2
     BLESSED = 3
+
+    @staticmethod
+    def from_name(full_name: str) -> ItemBeatitude:
+        """
+        Determine beatitude from item name
+
+        Args:
+            full_name (str): The full name of the item
+
+        Returns:
+            ItemBeatitude: The corresponding beatitude enum value
+        """
+        if "blessed" in full_name.lower():
+            return ItemBeatitude.BLESSED
+        elif "uncursed" in full_name.lower():
+            return ItemBeatitude.UNCURSED
+        elif "cursed" in full_name.lower():
+            return ItemBeatitude.CURSED
+        else:
+            return ItemBeatitude.UNKNOWN
 
 
 class ItemClasses(Enum):
@@ -31,6 +54,13 @@ class ItemClasses(Enum):
     CHAIN = nethack.CHAIN_CLASS
     VENOM = nethack.VENOM_CLASS
     MAXOCLASSES = nethack.MAXOCLASSES
+
+    @staticmethod
+    def from_oclass(oclass: int) -> ItemClasses:
+        """
+        Determine item class from object
+        """
+        return ItemClasses(oclass)
 
 
 class ItemShopStatus(Enum):
@@ -73,3 +103,41 @@ class ItemEnchantment:
         if isinstance(other, ItemEnchantment):
             return self._value == other._value
         return False
+
+    @staticmethod
+    def from_name(full_name):
+        if "+" in full_name:
+            ench = int(full_name.split("+")[1].split(" ")[0])
+        elif "-" in full_name:
+            ench = int(full_name.split("-")[1].split(" ")[0])
+        else:
+            ench = None
+        return ItemEnchantment(ench)
+
+
+class ItemErosion(Enum):
+    NONE = 0  # No erosion
+    BASIC = 1  # Basic damage (no prefix)
+    HEAVY = 2  # Heavy damage (prefix: 'very')
+    SEVERE = 3  # Severe damage (prefix: 'thoroughly')
+
+    @staticmethod
+    def from_name(full_name):
+        # rusty, very rusty, thoroughly rusty
+        # corroded, very corroded, thoroughly corroded
+        # burnt, very burnt, thoroughly burnt
+        # rotten, very rotten, thoroughly rotten
+        damage_pattern = re.compile(r"(?:(very|thoroughly)\s+)?(rusty|burnt|corroded|rotted)(?:\s+|$)")
+
+        # Find all matches in the text
+        matches = damage_pattern.finditer(full_name)
+
+        intensity_map = {None: 1, "very": 2, "thoroughly": 3}  # Basic damage  # Heavy damage  # Severe damage
+
+        damages = []
+        for match in matches:
+            intensity_word, damage_type = match.groups()
+            damages.append(intensity_map[intensity_word])
+        erosion = max(damages) if damages else 0
+
+        return ItemErosion(erosion)
