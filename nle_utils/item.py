@@ -106,10 +106,11 @@ class ItemEnchantment:
 
     @staticmethod
     def from_name(full_name):
-        if "+" in full_name:
-            ench = int(full_name.split("+")[1].split(" ")[0])
-        elif "-" in full_name:
-            ench = int(full_name.split("-")[1].split(" ")[0])
+        # Look for a plus or minus followed by one or more digits
+        match = re.search(r"[+\-]\d+", full_name)
+        if match:
+            # match.group(0) returns the entire matched string, e.g. "+3" or "-2"
+            ench = int(match.group(0))
         else:
             ench = None
         return ItemEnchantment(ench)
