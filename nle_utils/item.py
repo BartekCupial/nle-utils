@@ -38,17 +38,17 @@ class ItemBeatitude(Enum):
 class ItemClasses(Enum):
     RANDOM = nethack.RANDOM_CLASS  # used for generating random objects
     COINS = nethack.COIN_CLASS
-    AMULETS = nethack.AMULET_CLASS
-    WEAPONS = nethack.WEAPON_CLASS
+    AMULET = nethack.AMULET_CLASS
+    WEAPON = nethack.WEAPON_CLASS
     ARMOR = nethack.ARMOR_CLASS
     COMPESTIBLES = nethack.FOOD_CLASS
-    SCROLLS = nethack.SCROLL_CLASS
-    SPELLBOOKS = nethack.SPBOOK_CLASS
-    POTIONS = nethack.POTION_CLASS
-    RINGS = nethack.RING_CLASS
-    WANDS = nethack.WAND_CLASS
-    TOOLS = nethack.TOOL_CLASS
-    GEMS = nethack.GEM_CLASS
+    SCROLL = nethack.SCROLL_CLASS
+    SPELLBOOK = nethack.SPBOOK_CLASS
+    POTION = nethack.POTION_CLASS
+    RING = nethack.RING_CLASS
+    WAND = nethack.WAND_CLASS
+    TOOL = nethack.TOOL_CLASS
+    GEM = nethack.GEM_CLASS
     ROCKS = nethack.ROCK_CLASS
     BALL = nethack.BALL_CLASS
     CHAIN = nethack.CHAIN_CLASS
