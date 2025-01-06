@@ -7,6 +7,16 @@ from typing import Optional
 from nle import nethack
 
 
+class ArmorType(Enum):
+    SUIT = 0
+    SHIELD = 1  # needed for special wear function
+    HELM = 2
+    GLOVES = 3
+    BOOTS = 4
+    CLOAK = 5
+    SHIRT = 6
+
+
 class ItemBeatitude(Enum):
     # beatitude
     UNKNOWN = 0
