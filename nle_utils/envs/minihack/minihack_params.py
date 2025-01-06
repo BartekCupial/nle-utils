@@ -1,5 +1,7 @@
 import ast
 
+from nle_utils.utils.utils import str2bool
+
 
 def add_extra_params_minihack_env(parser):
     """
@@ -17,4 +19,5 @@ def add_extra_params_minihack_env(parser):
     p.add_argument("--save_ttyrec_every", type=int, default=0)
     p.add_argument("--gameloaddir", type=ast.literal_eval, default=None)
     p.add_argument("--state_counter", type=str, default=None)
-    p.add_argument("--autopickup", type=str, default=None)
+    p.add_argument("--autopickup", type=str2bool, default=None)
+    p.add_argument("--pet", type=str2bool, default=False)

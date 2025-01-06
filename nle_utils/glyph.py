@@ -551,7 +551,9 @@ class G:  # Glyphs
     FOOD_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.FOOD_CLASS})
     POTION_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.POTION_CLASS})
     SCROLL_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.SCROLL_CLASS})
-    SPBOOK_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.SPBOOK_CLASS})
+    SPELLBOOK_CLASS = frozenset(
+        {i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.SPBOOK_CLASS}
+    )
     WAND_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.WAND_CLASS})
     COIN_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.COIN_CLASS})
     GEM_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.GEM_CLASS})
@@ -568,7 +570,7 @@ class G:  # Glyphs
         FOOD_CLASS,
         POTION_CLASS,
         SCROLL_CLASS,
-        SPBOOK_CLASS,
+        SPELLBOOK_CLASS,
         WAND_CLASS,
         COIN_CLASS,
         GEM_CLASS,
