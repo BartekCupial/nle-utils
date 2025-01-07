@@ -21,3 +21,5 @@ def add_extra_params_nethack_env(parser):
     p.add_argument("--state_counter", type=str, default=None)
     p.add_argument("--autopickup", type=str2bool, default=False)
     p.add_argument("--pet", type=str2bool, default=True)
+    p.add_argument("--allow_all_yn_questions", type=str2bool, default=True)
+    p.add_argument("--allow_all_modes", type=str2bool, default=True)
