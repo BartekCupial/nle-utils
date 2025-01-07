@@ -7,7 +7,7 @@ from nle_utils.envs.create_env import create_env
 from nle_utils.utils.attr_dict import AttrDict
 
 
-def get_random_action(env, mode, obs):
+def get_random_action(env, mode):
     return env.action_space.sample()
 
 
@@ -37,7 +37,7 @@ def play(cfg, get_action=get_random_action):
     start_time = total_start_time
 
     while True:
-        action = get_action(env, cfg.play_mode, obs)
+        action = get_action(env, cfg.play_mode)
         if action is None:
             break
 

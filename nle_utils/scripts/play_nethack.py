@@ -58,9 +58,12 @@ def parse_numpad_action(action):
     return numpad_actions.get(action, action)
 
 
-def get_action(env, action_mode="human", obs=None):
-    # TODO: still bugged, for example right now we cannot kick diagonally
-    typing = obs["tty_cursor"][0] == 0
+def get_action(env, action_mode="human"):
+    internal = env.gym_env.unwrapped.last_observation[env.gym_env.unwrapped._internal_index]
+    in_yn_function = internal[1]
+    in_getlin = internal[2]
+    xwaitingforspace = internal[3]
+    typing = in_yn_function or in_getlin or xwaitingforspace
 
     if action_mode == "random":
         action = env.action_space.sample()
