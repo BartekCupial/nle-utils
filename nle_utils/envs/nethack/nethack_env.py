@@ -2,6 +2,7 @@ from typing import Optional
 
 import gym
 import nle  # NOQA: F401
+from nle import nethack
 
 from nle_utils.wrappers import GymV21CompatibilityV0, NLETimeLimit
 
@@ -38,6 +39,10 @@ def make_nethack_env(env_name, cfg, env_config, render_mode: Optional[str] = Non
         penalty_mode=cfg.fn_penalty_step,
         savedir=cfg.savedir,
         save_ttyrec_every=cfg.save_ttyrec_every,
+        wizard=False,
+        allow_all_yn_questions=True,
+        allow_all_modes=True,
+        actions=nethack.ACTIONS,
     )
 
     if cfg.max_episode_steps is not None:
