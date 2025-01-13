@@ -529,6 +529,7 @@ class G:  # Glyphs
     GUARD = frozenset({MON.fn("guard")})
 
     STATUES = frozenset({i + nh.GLYPH_STATUE_OFF for i in range(nh.NUMMONS)})
+    CORPSES = frozenset({i + nh.GLYPH_BODY_OFF for i in range(nh.NUMMONS)})
 
     BODIES = frozenset({nh.GLYPH_BODY_OFF + i for i in range(nh.NUMMONS)})
     OBJECTS = frozenset(
