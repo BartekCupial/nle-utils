@@ -22,6 +22,8 @@ class Score:
 class OracleScore(Score):
     def __init__(self):
         super().__init__()
+        # Note: there is a good alternative way for convolution approach
+        # look at messages: "You're in Delphi" or "welcome to Delphi!"
         self.fountain_glyph = nethack.GLYPH_CMAP_OFF + 31  # screen_symbols S_fountain
         self.oracle_glyph = None
         for glyph in range(nethack.GLYPH_MON_OFF, nethack.GLYPH_PET_OFF):
