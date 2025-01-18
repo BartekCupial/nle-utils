@@ -3,6 +3,7 @@ import gym
 from nle_utils.task_rewards import (
     EatingScore,
     GoldScore,
+    OracleScore,
     ScoutScore,
     SokobanFillPitScore,
     SokobanReachedScore,
@@ -28,6 +29,7 @@ class TaskRewardsInfoWrapper(gym.Wrapper):
             SokobanSolvedScore(),
             StaircasePetScore(),
             StaircaseScore(),
+            OracleScore(),
         ]
 
     def reset(self, **kwargs):

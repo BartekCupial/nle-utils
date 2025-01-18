@@ -2,6 +2,7 @@ import re
 
 import numpy as np
 from nle import nethack
+from scipy import signal
 
 from nle_utils.glyph import SS, G
 
@@ -16,6 +17,52 @@ class Score:
 
     def reset_score(self):
         self.score = 0
+
+
+class OracleScore(Score):
+    def __init__(self):
+        super().__init__()
+        self.fountain_glyph = nethack.GLYPH_CMAP_OFF + 31  # screen_symbols S_fountain
+        self.oracle_glyph = None
+        for glyph in range(nethack.GLYPH_MON_OFF, nethack.GLYPH_PET_OFF):
+            if nethack.permonst(nethack.glyph_to_mon(glyph)).mname == "Oracle":
+                self.oracle_glyph = glyph
+                break
+        assert self.oracle_glyph is not None
+
+        # The cross-shaped pattern we expect:
+        #   [ 0,  F,  0 ]
+        #   [ F,  O,  F ]
+        #   [ 0,  F,  0 ]
+        # We'll assign:
+        #   O = +10 (for Oracle)
+        #   F = +1 (for fountains)
+        #   0 =  0 (no contribution)
+        # This kernel is designed so that perfect match = 104 (10 * 10 for Oracle center + 4 for fountains)
+        self.kernel = np.array([[0, 1, 0], [1, 10, 1], [0, 1, 0]], dtype=np.float32)
+
+    def reward(self, env, last_observation, observation, end_status):
+        glyphs = observation[env._glyph_index]
+
+        reward = 0
+        # ensure that we will give reward only once
+        if self.score == 0:
+            # Convert glyphs to a numeric map where
+            # Oracle glyph = 10, Fountain glyph = 1, else = 0
+            numeric_map = np.zeros_like(glyphs, dtype=np.float32)
+            numeric_map[glyphs == self.oracle_glyph] = 10.0
+            numeric_map[glyphs == self.fountain_glyph] = 1.0
+
+            # Perform 2D convolution with 'valid' mode to avoid boundaries
+            conv_result = signal.convolve2d(numeric_map, self.kernel, mode="valid")
+
+            # A perfect cross match yields 104 in conv_result:
+            # (10 * 10 for the Oracle center + 4 * 1 for the four fountains)
+            if np.any(conv_result == 104.0):
+                self.score = 1
+                reward = 1
+
+        return reward
 
 
 class GoldScore(Score):
