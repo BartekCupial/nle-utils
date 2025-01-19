@@ -1,3 +1,4 @@
+from nle_utils.wrappers.auto_more import AutoMore
 from nle_utils.wrappers.blstats_info import BlstatsInfoWrapper
 from nle_utils.wrappers.final_stats_info import FinalStatsWrapper
 from nle_utils.wrappers.gym_compatibility import GymV21CompatibilityV0
@@ -23,4 +24,5 @@ __all__ = [
     NLETimeLimit,
     TtyrecInfoWrapper,
     GymV21CompatibilityV0,
+    AutoMore,
 ]
