@@ -40,6 +40,8 @@ log.addHandler(stream_handler)
 
 
 def str2bool(v):
+    if v is None or v.lower() == "none":
+        return None
     if isinstance(v, bool):
         return v
     if isinstance(v, str) and v.lower() in ("true",):
