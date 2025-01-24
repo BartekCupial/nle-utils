@@ -2,7 +2,7 @@ import gym
 from nle import nethack
 
 
-class NoProgressTimeout(gym.Wrapper):
+class NoProgressAbort(gym.Wrapper):
     def __init__(self, env, no_progress_timeout: int = 150):
         super().__init__(env)
         self.no_progress_timeout = no_progress_timeout
