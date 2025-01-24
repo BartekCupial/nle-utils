@@ -6,6 +6,7 @@ from nle_utils.wrappers.last_info import LastInfo
 from nle_utils.wrappers.load_save import LoadSave
 from nle_utils.wrappers.nle_demo import NLEDemo
 from nle_utils.wrappers.nle_timelimit import NLETimeLimit
+from nle_utils.wrappers.no_progress_timeout import NoProgressTimeout
 from nle_utils.wrappers.prev_actions import PrevActionsWrapper
 from nle_utils.wrappers.render_video import RenderVideo
 from nle_utils.wrappers.task_rewards_info import TaskRewardsInfoWrapper
@@ -25,4 +26,5 @@ __all__ = [
     TtyrecInfoWrapper,
     GymV21CompatibilityV0,
     AutoMore,
+    NoProgressTimeout,
 ]
