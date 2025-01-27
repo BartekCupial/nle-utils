@@ -46,4 +46,11 @@ def add_extra_params_minihack_env(parser):
         "--obs_keys",
         type=ast.literal_eval,
         default=["screen_image", "tty_chars", "tty_colors", "env_steps", "prev_actions"],
+        help="what obs we want to leave for training",
+    )
+    p.add_argument(
+        "--tokenize_keys",
+        type=ast.literal_eval,
+        default=["text_glyphs", "text_message", "text_blstats", "text_inventory", "text_cursor"],
+        help="what obs we want to use for tokenization",
     )
