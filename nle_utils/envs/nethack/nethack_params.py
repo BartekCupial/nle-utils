@@ -23,3 +23,27 @@ def add_extra_params_nethack_env(parser):
     p.add_argument("--pet", type=str2bool, default=True)
     p.add_argument("--allow_all_yn_questions", type=str2bool, default=True)
     p.add_argument("--allow_all_modes", type=str2bool, default=True)
+    p.add_argument(
+        "--use_prev_action",
+        type=str2bool,
+        default=True,
+        help="If True, the model will use previous action. Defaults to `True`",
+    )
+    p.add_argument(
+        "--add_image_observation",
+        type=str2bool,
+        default=True,
+        help="If True, the model will use previous action. Defaults to `True`",
+    )
+    p.add_argument("--crop_dim", type=int, default=18, help="Crop image around the player. Defaults to `18`.")
+    p.add_argument(
+        "--pixel_size",
+        type=int,
+        default=1,
+        help="Rescales each character to size of `(pixel_size, pixel_size). Defaults to `6`.",
+    )
+    p.add_argument(
+        "--obs_keys",
+        type=ast.literal_eval,
+        default=["screen_image", "tty_chars", "tty_colors", "env_steps", "prev_actions"],
+    )
