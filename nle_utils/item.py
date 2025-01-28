@@ -51,7 +51,7 @@ class ItemClasses(Enum):
     AMULET = nethack.AMULET_CLASS
     WEAPON = nethack.WEAPON_CLASS
     ARMOR = nethack.ARMOR_CLASS
-    COMPESTIBLES = nethack.FOOD_CLASS
+    COMESTIBLES = nethack.FOOD_CLASS
     SCROLL = nethack.SCROLL_CLASS
     SPELLBOOK = nethack.SPBOOK_CLASS
     POTION = nethack.POTION_CLASS

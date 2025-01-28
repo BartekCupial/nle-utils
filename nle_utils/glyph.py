@@ -549,7 +549,7 @@ class G:  # Glyphs
     RING_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.RING_CLASS})
     AMULET_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.AMULET_CLASS})
     TOOL_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.TOOL_CLASS})
-    COMPESTIBLES_CLASS = frozenset(
+    COMESTIBLES_CLASS = frozenset(
         {i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.FOOD_CLASS}
     )
     POTION_CLASS = frozenset({i for i in OBJECTS if ord(nh.objclass(nh.glyph_to_obj(i)).oc_class) == nh.POTION_CLASS})
@@ -570,7 +570,7 @@ class G:  # Glyphs
         RING_CLASS,
         AMULET_CLASS,
         TOOL_CLASS,
-        COMPESTIBLES_CLASS,
+        COMESTIBLES_CLASS,
         POTION_CLASS,
         SCROLL_CLASS,
         SPELLBOOK_CLASS,
