@@ -11,6 +11,7 @@ def add_extra_params_minihack_env(parser):
     p = parser
     p.add_argument("--character", type=str, default=None)
     p.add_argument("--max_episode_steps", type=int, default=None)
+    p.add_argument("--single_seed", type=int, default=None)
     p.add_argument("--penalty_step", type=float, default=-0.01)
     p.add_argument("--penalty_time", type=float, default=0.0)
     p.add_argument("--reward_shaping_coefficient", type=float, default=0.1)

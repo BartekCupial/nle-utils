@@ -11,6 +11,7 @@ from nle_utils.wrappers.no_progress_abort import NoProgressAbort
 from nle_utils.wrappers.obs_filter import ObservationFilterWrapper
 from nle_utils.wrappers.prev_actions import PrevActionsWrapper
 from nle_utils.wrappers.render_video import RenderVideo
+from nle_utils.wrappers.single_seed import SingleSeed
 from nle_utils.wrappers.task_rewards_info import TaskRewardsInfoWrapper
 from nle_utils.wrappers.tile_tty import TileTTY
 from nle_utils.wrappers.ttyrec_info import TtyrecInfoWrapper
@@ -33,4 +34,5 @@ __all__ = [
     TileTTY,
     ObservationFilterWrapper,
     NLETokenizer,
+    SingleSeed,
 ]
