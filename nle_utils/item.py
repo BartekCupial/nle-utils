@@ -47,6 +47,7 @@ class ItemBeatitude(Enum):
 
 class ItemClasses(Enum):
     RANDOM = nethack.RANDOM_CLASS  # used for generating random objects
+    ILLOBJ = nethack.ILLOBJ_CLASS
     COIN = nethack.COIN_CLASS
     AMULET = nethack.AMULET_CLASS
     WEAPON = nethack.WEAPON_CLASS
