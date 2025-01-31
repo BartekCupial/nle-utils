@@ -13,6 +13,13 @@ class Gender(enum.Enum):
     }
 
     @classmethod
+    def from_str(cls, string):
+        for key in cls._name_to_gender.value.keys():
+            if string == key[:3]:
+                return Gender(cls._name_to_gender.value[key])
+        raise ValueError()
+
+    @classmethod
     def parse(cls, description):
         pattern = rf'\b({"|".join(cls._name_to_gender.value.keys())})\b'
         match = re.search(pattern, description, re.IGNORECASE)

@@ -37,6 +37,13 @@ class Role(enum.Enum):
     }
 
     @classmethod
+    def from_str(cls, string):
+        for key in cls._name_to_role.value.keys():
+            if string == key[:3]:
+                return Role(cls._name_to_role.value[key])
+        raise ValueError()
+
+    @classmethod
     def parse(cls, description):
         pattern = rf'\b({"|".join(cls._name_to_role.value.keys())})\b'
         match = re.search(pattern, description, re.IGNORECASE)
