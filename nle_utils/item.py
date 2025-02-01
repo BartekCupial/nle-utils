@@ -81,38 +81,19 @@ class ItemShopStatus(Enum):
 
 
 class ItemEnchantment:
-    class EnchantmentState(Enum):
-        UNKNOWN = "UNKNOWN"
-
-    def __init__(self, value: Optional[int] = None):
-        self._value = value
-
-    @property
-    def value(self) -> Optional[int]:
-        """Get the enchantment value."""
-        return self._value
-
-    @value.setter
-    def value(self, new_value: Optional[int]) -> None:
-        """Set the enchantment value."""
-        if new_value is not None and not isinstance(new_value, int):
-            raise ValueError("Enchantment value must be an integer or None")
-        self._value = new_value
-
-    @property
-    def is_unknown(self) -> bool:
-        """Check if the enchantment state is unknown."""
-        return self._value is None
+    def __init__(self, value: Optional[int] = None, unknown: bool = False):
+        self.value = value
+        self.unknown = unknown
 
     def __str__(self) -> str:
-        return str(self.EnchantmentState.UNKNOWN.value if self.is_unknown else self._value)
+        return str("UNKNOWN" if self.unknown else self.value)
 
     def __repr__(self) -> str:
-        return f"ItemEnchantment({self._value})"
+        return f"ItemEnchantment({str('UNKNOWN' if self.unknown else self.value)})"
 
     def __eq__(self, other) -> bool:
         if isinstance(other, ItemEnchantment):
-            return self._value == other._value
+            return self.value == other.value
         return False
 
     @staticmethod
@@ -121,10 +102,9 @@ class ItemEnchantment:
         match = re.search(r"[+\-]\d+", full_name)
         if match:
             # match.group(0) returns the entire matched string, e.g. "+3" or "-2"
-            ench = int(match.group(0))
+            return ItemEnchantment(int(match.group(0)))
         else:
-            ench = None
-        return ItemEnchantment(ench)
+            return ItemEnchantment(0, unknown=True)
 
 
 class ItemErosion(Enum):
