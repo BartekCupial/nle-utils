@@ -10,7 +10,6 @@ from numba import njit
 from PIL import Image, ImageDraw, ImageFont
 
 from nle_utils.blstats import BLStats
-from nle_utils.item import ItemClasses
 from nle_utils.level import Level
 
 HISTORY_SIZE = 13
