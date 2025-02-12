@@ -6,7 +6,6 @@ from nle_utils.wrappers.last_info import LastInfo
 from nle_utils.wrappers.load_save import LoadSave
 from nle_utils.wrappers.nle_demo import NLEDemo
 from nle_utils.wrappers.nle_timelimit import NLETimeLimit
-from nle_utils.wrappers.nle_tokenizer import NLETokenizer
 from nle_utils.wrappers.no_progress_abort import NoProgressAbort
 from nle_utils.wrappers.obs_filter import ObservationFilterWrapper
 from nle_utils.wrappers.prev_actions import PrevActionsWrapper
@@ -33,6 +32,5 @@ __all__ = [
     NoProgressAbort,
     TileTTY,
     ObservationFilterWrapper,
-    NLETokenizer,
     SingleSeed,
 ]
