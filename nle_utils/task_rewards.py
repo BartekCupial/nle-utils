@@ -211,13 +211,12 @@ class SokobanReachedScore(Score):
 
     def reset_score(self):
         super().reset_score()
-        self.sokoban_levels = {}
+        self.reached_levels = {}
 
 
 class SokobanSolvedScore(Score):
     def __init__(self):
         super().__init__()
-        self.reached_levels = {}
 
     def reward(self, env, last_observation, observation, end_status):
         glyphs = observation[env._glyph_index]
@@ -231,4 +230,3 @@ class SokobanSolvedScore(Score):
 
     def reset_score(self):
         super().reset_score()
-        self.sokoban_levels = {}
