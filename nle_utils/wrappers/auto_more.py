@@ -2,6 +2,7 @@ import re
 
 import gym
 from nle.nethack import actions as A
+from nle.nethack import tty_render
 
 
 class AutoMore(gym.Wrapper):
@@ -11,6 +12,7 @@ class AutoMore(gym.Wrapper):
     def reset(self, **kwargs):
         obs = super().reset(**kwargs)
         obs["text_message"] = self.message_and_popup(obs)
+        self.last_text_message = obs["text_message"]
 
         return obs
 
@@ -29,6 +31,7 @@ class AutoMore(gym.Wrapper):
             reward += rew
 
         obs["text_message"] = message
+        self.last_text_message = obs["text_message"]
 
         return obs, reward, done, info
 
@@ -103,3 +106,16 @@ class AutoMore(gym.Wrapper):
         if marker_type:
             result.append(marker_type)
         return "\n".join(result)
+
+    def render(self, mode="human", **kwargs):
+        if mode == "human":
+            print(self.last_text_message)
+            env = self.env.unwrapped
+            obs = env.last_observation
+            tty_chars = obs[env._observation_keys.index("tty_chars")]
+            tty_colors = obs[env._observation_keys.index("tty_colors")]
+            tty_cursor = obs[env._observation_keys.index("tty_cursor")]
+            tty_cursor[0] += 1
+            print(tty_render(tty_chars[1:], tty_colors[1:], tty_cursor))
+        else:
+            return super().render(mode, **kwargs)
