@@ -114,7 +114,7 @@ class AutoMore(gym.Wrapper):
             obs = env.last_observation
             tty_chars = obs[env._observation_keys.index("tty_chars")]
             tty_colors = obs[env._observation_keys.index("tty_colors")]
-            tty_cursor = obs[env._observation_keys.index("tty_cursor")]
+            tty_cursor = obs[env._observation_keys.index("tty_cursor")].copy()
             tty_cursor[0] += 1
             print(tty_render(tty_chars[1:], tty_colors[1:], tty_cursor))
         else:
