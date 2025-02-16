@@ -59,10 +59,10 @@ class AutoMore(gym.Wrapper):
 
     def message_and_popup(self, obs):
         # Decode and clean up message and TTY characters
-        message = bytes(obs["message"]).decode().replace("\0", " ").replace("\n", "").strip()
+        message = bytes(obs["message"]).decode("latin-1").strip("\0")
 
         popup = []
-        lines = [bytes(line).decode().replace("\0", " ").replace("\n", "") for line in obs["tty_chars"]]
+        lines = [bytes(line).decode("latin-1").strip("\0") for line in obs["tty_chars"]]
         marker_pos, marker_type = self.find_marker(lines)
 
         # If no marker found, combine message and popup directly
