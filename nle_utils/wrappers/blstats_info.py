@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 
 from nle_utils.blstats import BLStats
 
@@ -12,12 +12,13 @@ class BlstatsInfoWrapper(gym.Wrapper):
         # because we will see done=True at the first timestep of the new episode
         # to properly calculate blstats at the end of the episode we need to keep the last_observation around
         last_observation = tuple(a.copy() for a in self.env.unwrapped.last_observation)
-        obs, reward, done, info = self.env.step(action)
+        obs, reward, term, trun, info = self.env.step(action)
+        done = term or trun
 
         if done or not self.done_only:
             info["episode_extra_stats"] = self.episode_extra_stats(info, last_observation)
 
-        return obs, reward, done, info
+        return obs, reward, term, trun, info
 
     def episode_extra_stats(self, info, last_observation):
         extra_stats = info.get("episode_extra_stats", {})

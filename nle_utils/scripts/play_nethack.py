@@ -59,7 +59,7 @@ def parse_numpad_action(action):
 
 
 def get_action(env, action_mode="human"):
-    internal = env.gym_env.unwrapped.last_observation[env.gym_env.unwrapped._internal_index]
+    internal = env.unwrapped.last_observation[env.unwrapped._internal_index]
     in_yn_function = internal[1]
     in_getlin = internal[2]
     xwaitingforspace = internal[3]

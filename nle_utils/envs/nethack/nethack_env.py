@@ -1,16 +1,13 @@
 from typing import Optional
 
-import gym
+import gymnasium as gym
 import nle  # NOQA: F401
+from gymnasium import registry
 from nle import nethack
 
-from nle_utils.wrappers import GymV21CompatibilityV0, NLETimeLimit
+from nle_utils.wrappers import AutoRender, AutoSeed
 
-NETHACK_ENVS = []
-for env_spec in gym.envs.registry.all():
-    id = env_spec.id
-    if "NetHack" in id:
-        NETHACK_ENVS.append(id)
+NETHACK_ENVS = [env_spec.id for env_spec in registry.values() if "NetHack" in env_spec.id]
 
 
 def make_nethack_env(env_name, cfg, env_config, render_mode: Optional[str] = None):
@@ -51,11 +48,8 @@ def make_nethack_env(env_name, cfg, env_config, render_mode: Optional[str] = Non
     if cfg.autopickup is not None:
         kwargs["autopickup"] = cfg.autopickup
 
-    env = gym.make(env_name, **kwargs)
-
-    # wrap NLE with timeout
-    env = NLETimeLimit(env)
-
-    env = GymV21CompatibilityV0(env=env, render_mode=render_mode)
+    env = gym.make(env_name, render_mode=render_mode, **kwargs)
+    env = AutoRender(env)
+    env = AutoSeed(env)
 
     return env

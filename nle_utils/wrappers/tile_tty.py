@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 import numpy as np
 from nle import nethack
 
@@ -68,16 +68,16 @@ class TileTTY(gym.Wrapper):
         obs["screen_image"] = screen
 
     def reset(self, **kwargs):
-        obs = super().reset(**kwargs)
+        obs, info = self.env.reset(**kwargs)
         self._populate_obs(obs)
 
-        return obs
+        return obs, info
 
     def step(self, action):
-        obs, reward, done, info = super().step(action)
+        obs, reward, term, trun, info = self.env.step(action)
         self._populate_obs(obs)
 
-        return obs, reward, done, info
+        return obs, reward, term, trun, info
 
 
 if __name__ == "__main__":

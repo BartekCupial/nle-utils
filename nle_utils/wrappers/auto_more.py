@@ -1,6 +1,6 @@
 import re
 
-import gym
+import gymnasium as gym
 from nle.nethack import actions as A
 from nle.nethack import tty_render
 
@@ -10,14 +10,15 @@ class AutoMore(gym.Wrapper):
         super().__init__(env)
 
     def reset(self, **kwargs):
-        obs = super().reset(**kwargs)
+        obs, info = self.env.reset(**kwargs)
         obs["text_message"] = self.message_and_popup(obs)
         self.last_text_message = obs["text_message"]
 
-        return obs
+        return obs, info
 
     def step(self, action):
-        obs, reward, done, info = super().step(action)
+        obs, reward, term, trun, info = self.env.step(action)
+        done = term or trun
 
         message = self.message_and_popup(obs)
 
@@ -25,7 +26,7 @@ class AutoMore(gym.Wrapper):
             message = message.replace("--More--", "")
 
             action_index = self.env.actions.index(A.MiscAction.MORE)
-            obs, rew, done, info = super().step(action_index)
+            obs, rew, term, trun, info = self.env.step(action_index)
             add = self.message_and_popup(obs)
             message += add
             reward += rew
@@ -33,7 +34,7 @@ class AutoMore(gym.Wrapper):
         obs["text_message"] = message
         self.last_text_message = obs["text_message"]
 
-        return obs, reward, done, info
+        return obs, reward, term, trun, info
 
     def find_marker(self, lines):
         """Return (line, column) of markers:
@@ -118,4 +119,4 @@ class AutoMore(gym.Wrapper):
             tty_cursor[0] += 1
             print(tty_render(tty_chars[1:], tty_colors[1:], tty_cursor))
         else:
-            return super().render(mode, **kwargs)
+            return self.env.render(mode, **kwargs)

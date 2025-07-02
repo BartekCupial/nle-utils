@@ -1,13 +1,13 @@
-import gym
+import gymnasium as gym
 
 
 class LastInfo(gym.Wrapper):
     def reset(self, **kwargs):
-        obs = self.env.reset(**kwargs)
+        obs, info = self.env.reset(**kwargs)
         self.last_info = None
-        return obs
+        return obs, info
 
     def step(self, action):
-        obs, reward, done, info = self.env.step(action)
+        obs, reward, term, trun, info = self.env.step(action)
         self.last_info = info
-        return obs, reward, done, info
+        return obs, reward, term, trun, info

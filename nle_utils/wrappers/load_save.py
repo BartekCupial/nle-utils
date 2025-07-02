@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 
 
 class LoadSave(gym.Wrapper):
@@ -7,6 +7,6 @@ class LoadSave(gym.Wrapper):
         self.gameloaddir = gameloaddir
 
     def reset(self, **kwargs):
-        obs = self.env.reset(**kwargs)
+        obs, info = self.env.reset(**kwargs)
         self.env.unwrapped.load(self.gameloaddir)
-        return obs
+        return obs, info

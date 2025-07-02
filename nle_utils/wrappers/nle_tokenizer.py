@@ -6,8 +6,8 @@ from functools import lru_cache
 from typing import Dict, List
 
 import gymnasium as gym
+import nle
 import numpy as np
-import torch
 from nle import nle_language_obsv
 from transformers import RobertaTokenizerFast
 
@@ -88,26 +88,20 @@ class NLETokenizer(gym.Wrapper):
         obs_dict.update(text_obs)
 
     def reset(self, **kwargs):
-        obs, info = super().reset(**kwargs)
+        obs, info = self.env.reset(**kwargs)
         self._populate_obs(obs)
 
         return obs, info
 
     def step(self, action):
-        obs, reward, terminated, truncated, info = super().step(action)
+        obs, reward, term, trun, info = self.env.step(action)
         self._populate_obs(obs)
 
-        return obs, reward, terminated, truncated, info
+        return obs, reward, term, trun, info
 
 
 if __name__ == "__main__":
-    import gym as gym_legacy
-    import nle
-
-    from nle_utils.wrappers import GymV21CompatibilityV0
-
-    env = gym_legacy.make("NetHackScore-v0")
-    env = GymV21CompatibilityV0(env=env)
+    env = gym.make("NetHackScore-v0")
     env = NLETokenizer(env, max_token_length=512)
 
     obs = env.reset()

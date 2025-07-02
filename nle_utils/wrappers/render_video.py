@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import cv2
-import gym
+import gymnasium as gym
 
 from nle_utils.visualize import Visualize
 from nle_utils.wrappers.last_info import LastInfo
@@ -33,17 +33,17 @@ class RenderVideo(LastInfo):
             self.video_writer.release()
 
         self.visualizer.reset_history()
-        obs = self.env.reset(**kwargs)
+        obs, info = self.env.reset(**kwargs)
 
         self.output_path = Path(self.output_dir) / f"{Path(self.env.unwrapped.nethack._ttyrec).stem}.mp4"
         self.output_path.parent.mkdir(parents=True, exist_ok=True)
         self.video_writer = cv2.VideoWriter(str(self.output_path), self.fourcc, 30.0, (1920, 1080))
 
         # TODO: add self.render() when updated to gymnasium
-        return obs
+        return obs, info
 
     def step(self, action):
-        obs, reward, done, info = self.env.step(action)
+        obs, reward, term, trun, info = self.env.step(action)
 
         # render current frame
         self.render()
@@ -54,7 +54,7 @@ class RenderVideo(LastInfo):
         tty_chars = last_obs[self.env.unwrapped._observation_keys.index("tty_chars")]
         self.visualizer.update_history(self.env.unwrapped.actions[action].name, message, tty_chars)
 
-        return obs, reward, done, info
+        return obs, reward, term, trun, info
 
     def render(self):
         last_obs = self.env.unwrapped.last_observation

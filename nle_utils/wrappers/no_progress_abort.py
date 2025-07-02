@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 from nle import nethack
 
 
@@ -11,7 +11,7 @@ class NoProgressAbort(gym.Wrapper):
     def reset(self, *args, **kwargs):
         self._turns = None
         self._no_progress_count = 0
-        return super().reset(*args, **kwargs)
+        return self.env.reset(*args, **kwargs)
 
     def _check_abort(self, observation):
         """Check if time has stopped and no observations has changed long enough

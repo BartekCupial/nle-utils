@@ -27,7 +27,6 @@ setup(
         "Github": "https://github.com/BartekCupial/nle-utils",
     },
     install_requires=[
-        "gym~=0.23",
         "opencv-python~=4.10",
         "numpy>=1.18.1,<2.0",
         "numba ~= 0.58",

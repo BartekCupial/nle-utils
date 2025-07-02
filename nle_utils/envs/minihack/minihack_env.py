@@ -1,21 +1,12 @@
-from typing import Callable, List, Optional
+from typing import Optional
 
-import gym
+import gymnasium as gym
 import minihack  # NOQA: F401
+from gymnasium import registry
 
-from nle_utils.utils.utils import is_module_available
-from nle_utils.wrappers import GymV21CompatibilityV0, NLETimeLimit
+from nle_utils.wrappers import AutoRender, AutoSeed
 
-
-def minihack_available():
-    return is_module_available("minihack")
-
-
-MINIHACK_ENVS = []
-for env_spec in gym.envs.registry.all():
-    id = env_spec.id
-    if id.split("-")[0] == "MiniHack":
-        MINIHACK_ENVS.append(id)
+MINIHACK_ENVS = [env_spec.id for env_spec in registry.values() if "MiniHack" in env_spec.id]
 
 
 def make_minihack_env(env_name, cfg, env_config, render_mode: Optional[str] = None):
@@ -54,11 +45,8 @@ def make_minihack_env(env_name, cfg, env_config, render_mode: Optional[str] = No
     if cfg.autopickup is not None:
         kwargs["autopickup"] = cfg.autopickup
 
-    env = gym.make(env_name, **kwargs)
-
-    # wrap NLE with timeout
-    env = NLETimeLimit(env)
-
-    env = GymV21CompatibilityV0(env=env, render_mode=render_mode)
+    env = gym.make(env_name, render_mode=render_mode, **kwargs)
+    env = AutoRender(env)
+    env = AutoSeed(env)
 
     return env

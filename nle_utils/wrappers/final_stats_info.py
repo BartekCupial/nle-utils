@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 from nle import nethack
 
 from nle_utils.blstats import BLStats
@@ -25,13 +25,14 @@ class FinalStatsWrapper(gym.Wrapper):
     def step(self, action):
         # use tuple and copy to avoid shallow copy (`last_observation` would be the same as `observation`)
         last_observation = tuple(a.copy() for a in self.env.unwrapped.last_observation)
-        obs, reward, done, info = self.env.step(action)
+        obs, reward, term, trun, info = self.env.step(action)
+        done = term or trun
         self.step_num += 1
 
         if done or not self.done_only:
             info["episode_extra_stats"] = self.episode_extra_stats(info, last_observation)
 
-        return obs, reward, done, info
+        return obs, reward, term, trun, info
 
     def episode_extra_stats(self, info, observation):
         extra_stats = info.get("episode_extra_stats", {})

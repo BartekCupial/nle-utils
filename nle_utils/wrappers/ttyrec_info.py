@@ -1,6 +1,6 @@
 from pathlib import Path
 
-import gym
+import gymnasium as gym
 
 
 class TtyrecInfoWrapper(gym.Wrapper):
@@ -10,11 +10,12 @@ class TtyrecInfoWrapper(gym.Wrapper):
 
     def step(self, action):
         ttyrec = self.env.unwrapped.nethack._ttyrec
-        obs, reward, done, info = self.env.step(action)
+        obs, reward, term, trun, info = self.env.step(action)
+        done = term or trun
 
         if done or self.done_only:
             extra_stats = info.get("episode_extra_stats", {})
             extra_stats["ttyrecname"] = Path(ttyrec).name if ttyrec else ""
             info["episode_extra_stats"] = extra_stats
 
-        return obs, reward, done, info
+        return obs, reward, term, trun, info

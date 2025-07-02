@@ -1,14 +1,5 @@
 import argparse
-import ast
-import sys
 import time
-import traceback
-from multiprocessing import Pool
-from pathlib import Path
-
-import gym
-import numpy as np
-import pandas as pd
 
 from nle_utils.ttyrec.print_ttyrec import PrintTtyrec
 from nle_utils.utils.utils import str2bool

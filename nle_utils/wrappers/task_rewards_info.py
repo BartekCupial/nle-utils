@@ -1,4 +1,4 @@
-import gym
+import gymnasium as gym
 
 from nle_utils.task_rewards import (
     EatingScore,
@@ -33,17 +33,18 @@ class TaskRewardsInfoWrapper(gym.Wrapper):
         ]
 
     def reset(self, **kwargs):
-        obs = self.env.reset(**kwargs)
+        obs, info = self.env.reset(**kwargs)
 
         for task in self.tasks:
             task.reset_score()
 
-        return obs
+        return obs, info
 
     def step(self, action):
         # use tuple and copy to avoid shallow copy (`last_observation` would be the same as `observation`)
         last_observation = tuple(a.copy() for a in self.env.unwrapped.last_observation)
-        obs, reward, done, info = self.env.step(action)
+        obs, reward, term, trun, info = self.env.step(action)
+        done = term or trun
         observation = tuple(a.copy() for a in self.env.unwrapped.last_observation)
         end_status = info["end_status"]
 
@@ -54,7 +55,7 @@ class TaskRewardsInfoWrapper(gym.Wrapper):
         if done or not self.done_only:
             info["episode_extra_stats"] = self.episode_extra_stats(info, last_observation)
 
-        return obs, reward, done, info
+        return obs, reward, term, trun, info
 
     def episode_extra_stats(self, info, last_observation):
         extra_stats = info.get("episode_extra_stats", {})
