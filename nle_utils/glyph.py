@@ -518,6 +518,8 @@ class G:  # Glyphs
     DOORS = frozenset.union(DOOR_CLOSED, DOOR_OPENED)
 
     BARS = frozenset({SS.S_bars})
+    THRONE = frozenset({SS.S_throne})
+    GRAVE = frozenset({SS.S_grave})
 
     MONS = frozenset(MON.ALL_MONS)
     PETS = frozenset(MON.ALL_PETS)
