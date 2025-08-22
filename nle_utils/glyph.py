@@ -474,6 +474,21 @@ class SHOP:
         "lighting store": 12,
     }
 
+    id2string = {
+        0 : "untended shop",
+        1 : "general store",
+        2 : "armor shop",
+        3 : "scroll shop",
+        4 : "potion shop",
+        5 : "weapon shop",
+        6 : "delicatessen",
+        7 : "jewelers",
+        8 : "wand shop",
+        9 : "hardware store",
+        10 : "bookstore",
+        11 : "health food store",
+        12 : "lighting shop",
+    }
 
 class Hunger:
     SATIATED = 0
