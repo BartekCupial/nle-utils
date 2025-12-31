@@ -6,35 +6,58 @@ from nle.nethack import tty_render
 
 
 class AutoMore(gym.Wrapper):
-    def __init__(self, env):
+    """
+    A Wrapper for NLE that automatically advances through
+    '--More--' prompts and aggregates the text output into a single log.
+    """
+
+    def __init__(self, env: gym.Env):
         super().__init__(env)
+        self.last_text_message: str = ""
 
     def reset(self, **kwargs):
         obs, info = self.env.reset(**kwargs)
-        obs["text_message"] = self.message_and_popup(obs)
+        obs["text_message"] = self._decode_message(obs)
         self.last_text_message = obs["text_message"]
 
         return obs, info
 
     def step(self, action):
         obs, reward, term, trun, info = self.env.step(action)
-        done = term or trun
 
-        message = self.message_and_popup(obs)
+        # Start the message log with the immediate result
+        full_message_log = [self._decode_message(obs)]
 
-        while "--More--" in message and not done:
-            message = message.replace("--More--", "")
+        while not (term or trun):
 
-            action_index = self.env.actions.index(A.MiscAction.MORE)
-            obs, rew, term, trun, info = self.env.step(action_index)
-            add = self.message_and_popup(obs)
-            message += add
-            reward += rew
+            # Check if the last message contains the "--More--" prompt
+            if "--More--" in full_message_log[-1]:
+                full_message_log[-1] = full_message_log[-1].replace("--More--", "").strip()
+                # Perform the auto-step
+                obs, r, term, trun, info = self.env.step(self.env.actions.index(A.MiscAction.MORE))
+                reward += r
 
-        obs["text_message"] = message
-        self.last_text_message = obs["text_message"]
+                if term or trun:
+                    break
+
+                # Append the text from this skipped screen to the log
+                msg = self._decode_message(obs)
+                if msg:
+                    full_message_log.append(msg)
+            else:
+                # No more prompts, return control to agent
+                break
+
+        # Join all messages into one string for the Agent
+        combined_text = "\n".join(filter(None, full_message_log))
+
+        obs["text_message"] = combined_text
+        self.last_text_message = combined_text
 
         return obs, reward, term, trun, info
+
+    def _decode_message(self, obs):
+        return self.message_and_popup(obs).strip()
 
     def find_marker(self, lines):
         """Return (line, column) of markers:

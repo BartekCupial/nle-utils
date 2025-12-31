@@ -1,3 +1,5 @@
+import copy
+
 import gymnasium as gym
 
 from nle_utils.task_rewards import (
@@ -14,7 +16,7 @@ from nle_utils.task_rewards import (
 )
 
 
-class TaskRewardsInfoWrapper(gym.Wrapper):
+class TaskRewardsInfo(gym.Wrapper):
     def __init__(self, env: gym.Env, done_only=True):
         super().__init__(env)
         self.done_only = done_only
@@ -41,11 +43,10 @@ class TaskRewardsInfoWrapper(gym.Wrapper):
         return obs, info
 
     def step(self, action):
-        # use tuple and copy to avoid shallow copy (`last_observation` would be the same as `observation`)
-        last_observation = tuple(a.copy() for a in self.env.unwrapped.last_observation)
+        last_observation = copy.deepcopy(self.env.unwrapped.last_observation)
         obs, reward, term, trun, info = self.env.step(action)
         done = term or trun
-        observation = tuple(a.copy() for a in self.env.unwrapped.last_observation)
+        observation = copy.deepcopy(self.env.unwrapped.last_observation)
         end_status = info["end_status"]
 
         # we will accumulate rewards for each step and log them when done signal appears
