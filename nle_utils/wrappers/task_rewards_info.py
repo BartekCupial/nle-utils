@@ -16,7 +16,7 @@ from nle_utils.task_rewards import (
 )
 
 
-class TaskRewardsInfo(gym.Wrapper):
+class TaskRewardsInfoWrapper(gym.Wrapper):
     def __init__(self, env: gym.Env, done_only=True):
         super().__init__(env)
         self.done_only = done_only

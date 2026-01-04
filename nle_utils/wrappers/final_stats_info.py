@@ -6,7 +6,7 @@ from nle import nethack
 from nle_utils.blstats import BLStats
 
 
-class FinalStats(gym.Wrapper):
+class FinalStatsWrapper(gym.Wrapper):
     def __init__(self, env: gym.Env, done_only=False):
         super().__init__(env)
         self.done_only = done_only
