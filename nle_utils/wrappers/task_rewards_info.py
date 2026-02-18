@@ -41,7 +41,7 @@ class TaskRewardsInfoWrapper(gym.Wrapper):
             task.reset_score()
 
         if not self.done_only:
-            info["episode_extra_stats"] = self.episode_extra_stats(info, self.env.unwrapped.last_observation)
+            info["episode_extra_stats"] = self.episode_extra_stats(info, obs)
 
         return obs, info
 
