@@ -22,7 +22,12 @@ class FinalStatsWrapper(gym.Wrapper):
             dlvl=0,
         )
 
-        return self.env.reset(**kwargs)
+        obs, info = self.env.reset(**kwargs)
+
+        if not self.done_only:
+            info["episode_extra_stats"] = self.episode_extra_stats(info, self.env.unwrapped.last_observation)
+
+        return obs, info
 
     def step(self, action):
         last_observation = copy.deepcopy(self.env.unwrapped.last_observation)
