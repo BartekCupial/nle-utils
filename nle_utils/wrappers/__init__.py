@@ -1,3 +1,4 @@
+from nle_utils.wrappers.auto_esc_call_item import AutoEscCallItem
 from nle_utils.wrappers.auto_more import AutoMore
 from nle_utils.wrappers.auto_render import AutoRender
 from nle_utils.wrappers.auto_seed import AutoSeed
@@ -16,6 +17,7 @@ from nle_utils.wrappers.tile_tty import TileTTY
 from nle_utils.wrappers.ttyrec_info import TtyrecInfoWrapper
 
 __all__ = [
+    AutoEscCallItem,
     AutoMore,
     AutoRender,
     AutoSeed,
