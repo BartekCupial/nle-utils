@@ -109,6 +109,9 @@ class AutoMore(gym.Wrapper):
 
                 if replace_func(pref) == replace_func(message):
                     break
+                elif replace_func(pref).startswith(replace_func(message)):
+                    message_lines_count -= 1
+                    break
             else:
                 # Handle special case for --More-- in first line
                 if marker_pos[0] == 0:
