@@ -51,7 +51,7 @@ class FinalStatsWrapper(gym.Wrapper):
 
         if key not in self.reached_levels:
             self.reached_levels[key] = dict(
-                previous_level=self.previous_dlvl, dlvl=self.reached_levels[self.previous_dlvl]["dlvl"] + 1
+                previous_level=self.previous_dlvl, dlvl=int(dungeon_level.item())
             )
         self.previous_dlvl = key
         self.current_dlvl = self.reached_levels[key]["dlvl"]
