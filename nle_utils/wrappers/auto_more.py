@@ -60,13 +60,34 @@ class AutoMore(gym.Wrapper):
         return self.message_and_popup(obs).strip()
 
     def find_marker(self, lines):
-        """Return (line, column) of markers:
+        """Return (line, column) of the bottommost marker found:
         --More-- | (end) | (X of N)
+
+        Multiple --More-- markers can be on screen simultaneously: several
+        rumors in dat/rumors.fal contain the literal string "--More--" as
+        part of the rumor body (e.g. "You can get a genuine Amulet of Yendor
+        by doing the following:  --More--"). When such a rumor displays,
+        NetHack also appends its own real --More-- prompt below it, so the
+        screen ends up with both a fake (in-text) and a real (prompt) marker.
+        We return the bottommost match because that one is the true end of
+        the popup region: the message-end search and popup extraction in
+        message_and_popup() both treat marker_pos as the lower boundary of
+        the visible UI, so using the bottommost marker keeps any content
+        between the markers inside the popup window.
+        Any other multi-marker combination (e.g. --More-- alongside a menu
+        marker, or multiple menu markers) is still surfaced as a bug.
         """
         regex = re.compile(r"(--More--|\(end\)|\(\d+ of \d+\))")
-        if len(regex.findall(" ".join(lines))) > 1:
-            raise ValueError("Too many markers")
+        all_matches = regex.findall(" ".join(lines))
+        if len(all_matches) > 1 and not all(m == "--More--" for m in all_matches):
+            raise ValueError(f"Too many markers: {all_matches}")
 
+        # Iterate top-down and break as soon as we've located every expected
+        # marker; the last one we overwrite into `result` is the bottommost.
+        # For the common single-marker path this still breaks on the first
+        # match, so we don't scan past it into the map / status bar.
+        expected = len(all_matches)
+        found = 0
         result, marker_type = None, None
         for i, line in enumerate(lines):
             res = regex.findall(line)
@@ -74,7 +95,9 @@ class AutoMore(gym.Wrapper):
                 assert len(res) == 1
                 j = line.find(res[0])
                 result, marker_type = (i, j), res[0]
-                break
+                found += 1
+                if found == expected:
+                    break
 
         # Special case: adjust column position if marker starts at position
         if result is not None and result[1] == 1:
