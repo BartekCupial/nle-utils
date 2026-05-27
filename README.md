@@ -10,7 +10,7 @@ MINOR=$(python3 -c 'import sys; print(f"cp{sys.version_info.major}{sys.version_i
 pip install "https://github.com/BartekCupial/nle/releases/download/v1.2.1/nle-1.2.0-${MINOR}-${MINOR}-manylinux_2_17_$(uname -m).manylinux2014_$(uname -m).whl"
 
 # install NLE utils
-pip install -e .[dev]
+pip install -e ".[dev]"
 
 pre-commit install
 

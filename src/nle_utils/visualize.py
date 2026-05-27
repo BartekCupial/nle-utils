@@ -1,6 +1,7 @@
-import importlib.resources
-import os
 import re
+from importlib.resources import files
+from pathlib import Path
+from typing import Optional
 
 import cv2
 import numpy as np
@@ -16,8 +17,24 @@ HISTORY_SIZE = 13
 FONT_SIZE = 32
 RENDERS_HISTORY_SIZE = 128
 
-nle_utils_dir = os.path.dirname(importlib.resources.files("nle_utils").__str__())
-SMALL_FONT_PATH = os.path.join(nle_utils_dir, "Hack-Regular.ttf")
+PACKAGE_ROOT = files("nle_utils")
+SMALL_FONT_PATH = str(PACKAGE_ROOT / "Hack-Regular.ttf")
+DEFAULT_TILESET_PATH = str(PACKAGE_ROOT / "tilesets" / "3.6.1tiles32.png")
+
+
+def _resolve_asset_path(path: Optional[str]) -> str:
+    if path is None:
+        return DEFAULT_TILESET_PATH
+
+    local_path = Path(path)
+    if local_path.exists() or local_path.is_absolute():
+        return str(local_path)
+
+    package_path = PACKAGE_ROOT.joinpath(*local_path.parts)
+    if package_path.is_file():
+        return str(package_path)
+
+    return str(local_path)
 
 # Mapping of 0-15 colors used.
 # Taken from bottom image here. It seems about right
@@ -164,9 +181,11 @@ class Visualize:
         render_font_size=(12, 22),
     ):
         self.render_font_size = render_font_size
-        self.tileset = cv2.imread(tileset_path)[..., ::-1]
-        if self.tileset is None:
+        tileset_path = _resolve_asset_path(tileset_path)
+        tileset = cv2.imread(tileset_path)
+        if tileset is None:
             raise FileNotFoundError(f"Tileset {tileset_path} not found")
+        self.tileset = tileset[..., ::-1]
         if self.tileset.shape[0] % tile_size != 0 or self.tileset.shape[1] % tile_size != 0:
             raise ValueError("Tileset and tile_size doesn't match modulo")
 
@@ -179,7 +198,7 @@ class Visualize:
                 x *= tile_size
                 tiles.append(self.tileset[y : y + tile_size, x : x + tile_size])
         self.tileset = np.array(tiles)
-        from glyph2tile import glyph2tile
+        from nle_utils.glyph2tile import glyph2tile
 
         self.glyph2tile = np.array(glyph2tile)
 
